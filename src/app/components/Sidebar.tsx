@@ -58,7 +58,7 @@ const Sidebar = () => {
     alignItems: "center",
     color: pathname === path ? "#FFFFFF" : "#B4B4CD",
     backgroundColor: pathname === path ? "#A56EB4" : "transparent",
-    fontSize: "13px",
+    fontSize: "15px",
     padding: "8px 10px",
     gap: "10px",
     textDecoration: "none",
