@@ -3,12 +3,16 @@ import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { useState } from "react";
 import Flight from "../../../public/assests/searchIcon/airplan.svg";
 import Plan from "../../../public/assests/searchIcon/plan.svg";
+import calender from "../../../public/assests/searchIcon/calender.svg";
+import flightClass from "../../../public/assests/searchIcon/flightClass.svg";
+import traveler from "../../../public/assests/searchIcon/traveler.svg";
 import Image from "next/image";
 
 type MenuItem = {
   name: string;
   icon: string;
 };
+
 const searchBars: MenuItem[] = [
   {
     name: "Flight",
@@ -34,6 +38,11 @@ const flightMenu: FlightMenu[] = [
 const Dashboard = () => {
   const [tabs, setTabs] = useState("Flight");
   const [currentMenu, setCurrentMenu] = useState("One Way");
+
+  
+
+
+
   return (
     <Box>
       <Box>
@@ -87,12 +96,12 @@ const Dashboard = () => {
         </Box>
 
         <Box mt={2}>
-          <Grid container>
-            <Grid item md={7}>
+          <Grid container spacing={2}>
+            <Grid item md={5}>
               <Box
                 sx={{
                   border: "1px solid #D9D5EC",
-                  p: 2,
+                  p: 1,
                   display: "flex",
                   justifyContent: "space-between",
                 }}
@@ -123,7 +132,12 @@ const Dashboard = () => {
                       </Typography>
                     </Box>
                     <Box>
-                      <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
+                      <Typography
+                        sx={{
+                          color: "#2D233C",
+                          fontSize: "14px",
+                        }}
+                      >
                         Dhaka, Bangladesh
                       </Typography>
                       <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
@@ -154,7 +168,7 @@ const Dashboard = () => {
                       }}
                     >
                       <Typography sx={{ color: "#6E0A82", fontWeight: "500" }}>
-                        DAC
+                        BKK
                       </Typography>
                     </Box>
                     <Box>
@@ -166,6 +180,149 @@ const Dashboard = () => {
                       </Typography>
                     </Box>
                   </Box>
+                </Box>
+              </Box>
+            </Grid>
+
+            <Grid item md={4}>
+              <Box
+                sx={{
+                  border: "1px solid #D9D5EC",
+                  p: 1,
+                  display: "flex",
+                  gap: "15px",
+                  // justifyContent: "space-between",
+                }}
+              >
+                <Box>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                  >
+                    <Image src={calender} alt="plan Icon" />
+                    <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
+                      Departure
+                    </Typography>
+                  </Box>
+
+                  <Box mt={1} sx={{ display: "flex", gap: "10px" }}>
+                    <Box
+                      sx={{
+                        height: "36px",
+                        bgcolor: "#F2F0F9",
+                        width: "55px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography sx={{ color: "#6E0A82", fontWeight: "500" }}>
+                        25
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
+                        November
+                      </Typography>
+                      <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
+                        Wednesday, 2024
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+
+                <Box
+                  sx={{
+                    border: "1px solid #D9D5EC",
+                    width: "1px",
+                  }}
+                ></Box>
+
+                <Box>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                  >
+                    <Image src={calender} alt="plan Icon" />
+                    <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
+                      Add Return
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item md={2}>
+              <Box
+                sx={{
+                  border: "1px solid #D9D5EC",
+                  p: 1,
+                }}
+              >
+                <Box>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                  >
+                    <Image src={calender} alt="plan Icon" />
+                    <Typography
+                      sx={{
+                        fontSize: "15px",
+                        color: "#2D233C",
+                        fontWeight: 500,
+                      }}
+                    >
+                      Economy
+                    </Typography>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      border: "1px solid #D9D5EC",
+                      width: "100%",
+                    }}
+                    my={1}
+                  ></Box>
+                  <Box
+                    sx={{ display: "flex", alignItems: "center", gap: "10px" }}
+                  >
+                    <Image src={calender} alt="plan Icon" />
+                    <Typography
+                      sx={{
+                        fontSize: "15px",
+                        color: "#2D233C",
+                        fontWeight: 500,
+                      }}
+                    >
+                      3 Traveler
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
+            <Grid item md={1}>
+              <Box
+                sx={{
+                  border: "1px solid #D9D5EC",
+                  p: 1,
+                  display: "flex",
+                  gap: "15px",
+                  background: "#A56EB4",
+                  borderRadius: "3px",
+                  cursor: "pointer",
+                  height: "100%",
+
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Box>
+                  <button
+                    style={{
+                      border: "none",
+                      background: "none",
+                      color: "#fff",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Search
+                  </button>
                 </Box>
               </Box>
             </Grid>
