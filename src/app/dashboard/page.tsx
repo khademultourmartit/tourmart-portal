@@ -50,6 +50,12 @@ const Dashboard = () => {
   const [childCount, setChildCount] = useState(0);
   const [kidCount, setKidCount] = useState(0);
   const [infantCount, setInfantCount] = useState(0);
+  const [totalPassenger, setTotalPassenger] = useState(1);
+
+  const handleClose = () => {
+    setTotalPassenger(adultCount + childCount + kidCount + infantCount);
+    setTravelerBoxOpen(false);
+  };
 
   const handleClickAway = () => {
     setTravelerBoxOpen(false);
@@ -58,7 +64,7 @@ const Dashboard = () => {
   //  adult Increment
   function adultInclement(e: React.FormEvent) {
     e.preventDefault();
-    if (adultCount < 9 - (childCount + kidCount + infantCount)) {
+    if (adultCount < 9 - (childCount + kidCount)) {
       setAdultCount(adultCount + 1);
     }
   }
@@ -79,7 +85,7 @@ const Dashboard = () => {
   //  child incerement
   function childIncrement(e: React.FormEvent) {
     e.preventDefault();
-    if (childCount < 9 - (adultCount + infantCount + kidCount)) {
+    if (childCount < 9 - (adultCount + kidCount)) {
       setChildCount(childCount + 1);
     }
   }
@@ -93,7 +99,7 @@ const Dashboard = () => {
   //  kid increment
   function kidInclement(e: React.FormEvent) {
     e.preventDefault();
-    if (kidCount < 9 - (adultCount + infantCount + childCount)) {
+    if (kidCount < 9 - (adultCount + childCount)) {
       setKidCount(kidCount + 1);
     }
   }
@@ -103,6 +109,22 @@ const Dashboard = () => {
     e.preventDefault();
     if (kidCount > 0) {
       setKidCount(kidCount - 1);
+    }
+  }
+
+  // Increment the default value if the value is not a child.
+  function infantIncrement(e: React.FormEvent) {
+    e.preventDefault();
+    if (infantCount < adultCount) {
+      setInfantCount(infantCount + 1);
+    }
+  }
+
+  // Decrement the infant by 1.
+  function infantDecrement(e: React.FormEvent) {
+    e.preventDefault();
+    if (infantCount > 0) {
+      setInfantCount(infantCount - 1);
     }
   }
 
@@ -393,7 +415,7 @@ const Dashboard = () => {
                           fontWeight: 500,
                         }}
                       >
-                        3 Traveler
+                        {totalPassenger} Traveler
                       </Typography>
                     </Box>
 
@@ -671,7 +693,7 @@ const Dashboard = () => {
                               width="40%"
                             >
                               <button
-                                // onClick={infantDecrement}
+                                onClick={infantDecrement}
                                 style={{
                                   backgroundColor: "#fff",
                                   color: "var(--white)",
@@ -694,10 +716,10 @@ const Dashboard = () => {
                                   color: "#fff",
                                 }}
                               >
-                                {/* {infant} */}0
+                                {infantCount}
                               </Typography>
                               <button
-                                // onClick={infantIncrement}
+                                onClick={infantIncrement}
                                 style={{
                                   backgroundColor: "#fff",
                                   color: "var(--white)",
@@ -777,7 +799,7 @@ const Dashboard = () => {
                           <Box mt={2} style={{ textAlign: "right" }}>
                             <Button
                               size="small"
-                              // onClick={handleClose}
+                              onClick={handleClose}
                               className="shine-effect"
                               style={{
                                 backgroundColor: "#fff",
