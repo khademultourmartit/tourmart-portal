@@ -52,15 +52,27 @@ const Dashboard = () => {
   const [infantCount, setInfantCount] = useState(0);
   const [totalPassenger, setTotalPassenger] = useState(1);
 
+  const [fromSearchText, setFromSearchText] = useState({
+    airportCode: "DAC",
+    airportName: "Hazrat Shahjalal Intl Arpt",
+    cityName: "Dhaka",
+    countryName: "Bangladesh",
+  });
+
+  const [toSearchText, setToSearchText] = useState({
+    airportCode: "CXB",
+    airportName: "Coxs Bazar Airport",
+    cityName: "Coxs Bazar",
+    countryName: "Bangladesh",
+  });
+
   const handleClose = () => {
     setTotalPassenger(adultCount + childCount + kidCount + infantCount);
     setTravelerBoxOpen(false);
   };
-
   const handleClickAway = () => {
     setTravelerBoxOpen(false);
   };
-
   //  adult Increment
   function adultInclement(e: React.FormEvent) {
     e.preventDefault();
@@ -68,7 +80,6 @@ const Dashboard = () => {
       setAdultCount(adultCount + 1);
     }
   }
-
   // adult decrement
   function adultDecrement(e: React.FormEvent) {
     e.preventDefault();
@@ -81,7 +92,6 @@ const Dashboard = () => {
       }
     }
   }
-
   //  child incerement
   function childIncrement(e: React.FormEvent) {
     e.preventDefault();
@@ -103,7 +113,6 @@ const Dashboard = () => {
       setKidCount(kidCount + 1);
     }
   }
-
   // kid decrement
   function kidDecrement(e: React.FormEvent) {
     e.preventDefault();
@@ -111,7 +120,6 @@ const Dashboard = () => {
       setKidCount(kidCount - 1);
     }
   }
-
   // Increment the default value if the value is not a child.
   function infantIncrement(e: React.FormEvent) {
     e.preventDefault();
@@ -119,7 +127,6 @@ const Dashboard = () => {
       setInfantCount(infantCount + 1);
     }
   }
-
   // Decrement the infant by 1.
   function infantDecrement(e: React.FormEvent) {
     e.preventDefault();
@@ -220,7 +227,7 @@ const Dashboard = () => {
                         <Typography
                           sx={{ color: "#6E0A82", fontWeight: "500" }}
                         >
-                          DAC
+                          {fromSearchText?.airportCode}
                         </Typography>
                       </Box>
                       <Box>
@@ -230,10 +237,11 @@ const Dashboard = () => {
                             fontSize: "14px",
                           }}
                         >
-                          Dhaka, Bangladesh
+                          {fromSearchText?.cityName},
+                          {fromSearchText?.countryName}
                         </Typography>
                         <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
-                          Hazrat Shahjalal Intl Airport
+                          {fromSearchText?.airportName}
                         </Typography>
                       </Box>
                     </Box>
@@ -266,15 +274,15 @@ const Dashboard = () => {
                         <Typography
                           sx={{ color: "#6E0A82", fontWeight: "500" }}
                         >
-                          BKK
+                          {toSearchText?.airportCode}
                         </Typography>
                       </Box>
                       <Box>
                         <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
-                          Bangkok, Thailand
+                          {toSearchText?.cityName}, {toSearchText?.countryName}
                         </Typography>
                         <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
-                          Hazrat Shahjalal Intl Airport
+                          {toSearchText?.airportName}
                         </Typography>
                       </Box>
                     </Box>
@@ -597,7 +605,7 @@ const Dashboard = () => {
                                   color: "#fff",
                                 }}
                               >
-                                2- less than 12 yrs
+                                5- less than 12 yrs
                               </Typography>
                             </Box>
                           </Stack>
