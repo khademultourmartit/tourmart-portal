@@ -23,7 +23,7 @@ export default function RootLayout({
               display: flex;
             }
             .content {
-              padding: 20px;
+              padding: 0px 0px 0px 20px;
               flex-grow: 1;
               // min-height: 100vh;
             }
