@@ -7,13 +7,14 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Flight from "../../../public/assests/searchIcon/airplan.svg";
 import Plan from "../../../public/assests/searchIcon/plan.svg";
 import calender from "../../../public/assests/searchIcon/calender.svg";
 import flightClass from "../../../public/assests/searchIcon/flightClass.svg";
 import traveler from "../../../public/assests/searchIcon/traveler.svg";
 import Image from "next/image";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 
 type MenuItem = {
   name: string;
@@ -42,6 +43,26 @@ const flightMenu: FlightMenu[] = [
   },
 ];
 
+interface Airport {
+  id: number;
+  airportCode: string;
+  airportName: string;
+  cityName: string;
+  cityCode: string;
+  countryName: string;
+  countryCode: string;
+  activeRunways: string;
+  airportElevation: string;
+}
+interface AirportPayload {
+  cityCode: string;
+  airportCode: string;
+  cityName: string;
+  countryName: string;
+  airportName: string;
+  airports: Airport[];
+}
+
 const Dashboard = () => {
   const [tabs, setTabs] = useState("Flight");
   const [currentMenu, setCurrentMenu] = useState("One Way");
@@ -51,6 +72,9 @@ const Dashboard = () => {
   const [kidCount, setKidCount] = useState(0);
   const [infantCount, setInfantCount] = useState(0);
   const [totalPassenger, setTotalPassenger] = useState(1);
+  const [openFrom, setOpenFrom] = useState(false);
+  const [data, setData] = useState<AirportPayload[]>([]);
+  const [searchKeyword, setSearchKeyword] = useState<string>("dubai");
 
   const [fromSearchText, setFromSearchText] = useState({
     airportCode: "DAC",
@@ -59,6 +83,7 @@ const Dashboard = () => {
     countryName: "Bangladesh",
   });
 
+
   const [toSearchText, setToSearchText] = useState({
     airportCode: "CXB",
     airportName: "Coxs Bazar Airport",
@@ -66,12 +91,22 @@ const Dashboard = () => {
     countryName: "Bangladesh",
   });
 
+  useEffect(() => {
+    const url = `http://82.112.238.135:88/airports/search?searchInput=${searchKeyword}`;
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data?.payload);
+      });
+  }, [searchKeyword]);
+
   const handleClose = () => {
     setTotalPassenger(adultCount + childCount + kidCount + infantCount);
     setTravelerBoxOpen(false);
   };
   const handleClickAway = () => {
     setTravelerBoxOpen(false);
+    setOpenFrom(false);
   };
   //  adult Increment
   function adultInclement(e: React.FormEvent) {
@@ -135,6 +170,217 @@ const Dashboard = () => {
     }
   }
 
+  const fromSuggestedText = (data: any) => {
+    setFromSearchText(data);
+  };
+
+  const fromGetSuggetion = () => {
+    return (
+      <Box
+        style={{
+          height: "fit-content",
+          position: "relative",
+          width: "100%",
+          zIndex: "100",
+        }}
+      >
+        <Box
+          sx={{
+            maxHeight: "230px",
+            overflowY: "auto",
+            background: "#fff",
+            // boxShadow:
+            //   "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
+            "&::-webkit-scrollbar": { width: "5px" },
+          }}
+        >
+          {data?.length !== 0 ? (
+            data?.map((item) => (
+              <>
+                <Box
+                  sx={{
+                    padding: "10px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    fromSuggestedText(item);
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#A56EB4",
+                        fontSize: "13px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
+                      <LocationOnIcon
+                        sx={{
+                          color: "#A56EB4",
+                          fontSize: "20px",
+                        }}
+                      />
+                      {item?.cityName}
+                    </Typography>
+
+                    <Typography
+                      style={{
+                        fontSize: "11px",
+                        color: "#6E6996",
+                      }}
+                    >
+                      All Airport
+                    </Typography>
+                  </Box>
+
+                  <Box my={1}>
+                    <hr
+                      style={{
+                        backgroundColor: "#F2F0F9",
+                        height: "2px",
+                        border: "none",
+                      }}
+                    ></hr>
+                  </Box>
+
+                  {item?.airports ? (
+                    item?.airports?.map((data) => (
+                      <Box
+                        key={data?.id}
+                        sx={{
+                          display: "flex",
+                          gap: "8px",
+                          // transition: "all .3s ease-in-out",
+                          // "&:hover": {
+                          //   backgroundColor: "#C3A0CD",
+                          // },
+                        }}
+                        p={0.5}
+                        mt={1}
+                        onClick={() => {
+                          fromSuggestedText(data);
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: "30px",
+                            bgcolor: "#F2F0F9",
+                            width: "45px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              color: "#6E0A82",
+                              fontWeight: "500",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {data?.airportCode}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              color: "#2D233C",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {data?.cityName}, {data?.countryName}
+                          </Typography>
+                          <Typography
+                            sx={{ color: "#6E6996", fontSize: "10px" }}
+                          >
+                            {data?.airportName}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    ))
+                  ) : (
+                    <>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "8px",
+                          // transition: "all .3s ease-in-out",
+                          // "&:hover": {
+                          //   backgroundColor: "#C3A0CD",
+                          // },
+                        }}
+                        p={0.5}
+                        mt={1}
+                        onClick={() => {
+                          fromSuggestedText(item);
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: "30px",
+                            bgcolor: "#F2F0F9",
+                            width: "45px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              color: "#6E0A82",
+                              fontWeight: "500",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {item?.airportCode}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              color: "#2D233C",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {item?.cityName}, {item?.countryName}
+                          </Typography>
+                          <Typography
+                            sx={{ color: "#6E6996", fontSize: "10px" }}
+                          >
+                            {item?.airportName}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </>
+                  )}
+                </Box>
+              </>
+            ))
+          ) : (
+            <Box>
+              <Typography
+                style={{
+                  color: "#DC143C",
+                  paddingLeft: "10px",
+                }}
+              >
+                Not found
+              </Typography>
+            </Box>
+          )}
+        </Box>
+      </Box>
+    );
+  };
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box>
@@ -197,6 +443,7 @@ const Dashboard = () => {
               rowSpacing={{ lg: 0, md: 0, sm: 1, xs: 1 }}
               columnSpacing={0.1}
             >
+              {/* From */}
               <Grid
                 item
                 container
@@ -218,6 +465,9 @@ const Dashboard = () => {
                   sx={{
                     position: "relative",
                   }}
+                  onClick={() => {
+                    setOpenFrom((prev) => !prev);
+                  }}
                 >
                   <Box>
                     <Box
@@ -233,38 +483,87 @@ const Dashboard = () => {
                       </Typography>
                     </Box>
 
-                    <Box sx={{ display: "flex", gap: "10px" }} mt={1}>
+                    {openFrom ? (
                       <Box
                         sx={{
-                          height: "36px",
-                          bgcolor: "#F2F0F9",
-                          width: "55px",
                           display: "flex",
-                          alignItems: "center",
                           justifyContent: "center",
+                          alignItems: "center",
+                          color: "#003566",
+                          backgroundColor: "#fff",
                         }}
                       >
-                        <Typography
-                          sx={{ color: "#6E0A82", fontWeight: "500" }}
-                        >
-                          {fromSearchText?.airportCode}
-                        </Typography>
+                        <input
+                          autoComplete="off"
+                          autoFocus
+                          onChange={(e) => setSearchKeyword(e.target.value)}
+                          placeholder="Search an airport..."
+                          style={{
+                            color: "#9493BD",
+                            fontWeight: 500,
+                            width: "100%",
+                            height: "40px",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            paddingTop: "10px",
+                          }}
+                        />
                       </Box>
-                      <Box>
-                        <Typography
+                    ) : (
+                      <Box sx={{ display: "flex", gap: "10px" }} mt={1}>
+                        <Box
                           sx={{
-                            color: "#2D233C",
-                            fontSize: "14px",
+                            height: "36px",
+                            bgcolor: "#F2F0F9",
+                            width: "55px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
                           }}
                         >
-                          {fromSearchText?.cityName},
-                          {fromSearchText?.countryName}
-                        </Typography>
-                        <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
-                          {fromSearchText?.airportName}
-                        </Typography>
+                          <Typography
+                            sx={{ color: "#6E0A82", fontWeight: "500" }}
+                          >
+                            {fromSearchText?.airportCode}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              color: "#2D233C",
+                              fontSize: "14px",
+                            }}
+                          >
+                            {fromSearchText?.cityName},
+                            {fromSearchText?.countryName}
+                          </Typography>
+                          <Typography
+                            sx={{ color: "#6E6996", fontSize: "11px" }}
+                          >
+                            {fromSearchText?.airportName}
+                          </Typography>
+                        </Box>
                       </Box>
-                    </Box>
+                    )}
+
+                    {openFrom && (
+                      <Box
+                        style={{
+                          position: "absolute",
+                          top: "120%",
+                          left: "0",
+                          right: "0",
+                          width: "100%",
+                          backgroundColor: "#ffffff",
+                          height: "fit-content",
+                          zIndex: 100,
+                          border: "1px solid #6E0A82",
+                        }}
+                      >
+                        <Box>{fromGetSuggetion()}</Box>
+                      </Box>
+                    )}
                   </Box>
                 </Grid>
                 <Grid
@@ -324,6 +623,8 @@ const Dashboard = () => {
                   </Box>
                 </Grid>
               </Grid>
+
+              {/*  date */}
               <Grid
                 item
                 container
