@@ -158,7 +158,7 @@ const Dashboard = () => {
           ))}
         </Box>
         <Box
-          sx={{ bgcolor: "white", mt: 3, borderRadius: "4px", p: "15px 20px" }}
+          sx={{ bgcolor: "white", mt: 3, borderRadius: "4px", p: "15px 25px" }}
         >
           <Box
             sx={{
@@ -186,37 +186,15 @@ const Dashboard = () => {
               </Button>
             ))}
           </Box>
-
           <Box mt={2}>
-            <Grid
-              sx={{
-                height: "fit-content",
-                width: "100%",
-              }}
-              container
-              rowSpacing={{ lg: 0, md: 0, sm: 1, xs: 1 }}
-              columnSpacing={0.1}
-            >
-              <Grid
-                item
-                container
-                xs={12}
-                sm={12}
-                md={5}
-                lg={5}
-                style={{
-                  border: "1px solid #D9D5EC",
-                  padding: "10px",
-                }}
-              >
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  lg={6}
+            <Grid container spacing={2}>
+              <Grid item md={5}>
+                <Box
                   sx={{
-                    position: "relative",
+                    border: "1px solid #D9D5EC",
+                    p: 1,
+                    display: "flex",
+                    justifyContent: "space-between",
                   }}
                 >
                   <Box>
@@ -233,7 +211,7 @@ const Dashboard = () => {
                       </Typography>
                     </Box>
 
-                    <Box sx={{ display: "flex", gap: "10px" }} mt={1}>
+                    <Box mt={1} sx={{ display: "flex", gap: "10px" }}>
                       <Box
                         sx={{
                           height: "36px",
@@ -266,21 +244,6 @@ const Dashboard = () => {
                       </Box>
                     </Box>
                   </Box>
-                </Grid>
-                <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  lg={6}
-                  sx={{
-                    position: "relative",
-                  }}
-                  mt={{
-                    xs: 2,
-                    sm: 0,
-                  }}
-                >
                   <Box>
                     <Box
                       sx={{
@@ -322,37 +285,16 @@ const Dashboard = () => {
                       </Box>
                     </Box>
                   </Box>
-                </Grid>
+                </Box>
               </Grid>
-              <Grid
-                item
-                container
-                xs={12}
-                sm={12}
-                md={4}
-                lg={4}
-                style={{
-                  border: "1px solid #D9D5EC",
-                  padding: "10px",
-                  position: "relative",
-                }}
-                ml={{
-                  sm: 1.5,
-                  xs: 0,
-                }}
-                mt={{
-                  xs: 1,
-                  sm: 0,
-                }}
-              >
-                <Grid
-                  item
-                  xs={6}
-                  sm={6}
-                  md={6}
-                  lg={6}
+              <Grid item md={4}>
+                <Box
                   sx={{
-                    position: "relative",
+                    border: "1px solid #D9D5EC",
+                    p: 1,
+                    display: "flex",
+                    gap: "15px",
+                    // justifyContent: "space-between",
                   }}
                 >
                   <Box>
@@ -396,28 +338,14 @@ const Dashboard = () => {
                       </Box>
                     </Box>
                   </Box>
-                </Grid>
 
-                <Grid
-                  item
-                  xs={6}
-                  sm={6}
-                  md={6}
-                  lg={6}
-                  sx={{
-                    position: "relative",
-                  }}
-                >
                   <Box
                     sx={{
-                      width: "2px",
                       border: "1px solid #D9D5EC",
-                      position: "absolute",
-                      height: "60px",
-                      left: "-25px",
+                      width: "1px",
                     }}
-                    display={{ xs: "none", sm: "block" }}
                   ></Box>
+
                   <Box>
                     <Box
                       sx={{
@@ -432,32 +360,19 @@ const Dashboard = () => {
                       </Typography>
                     </Box>
                   </Box>
-                </Grid>
+                </Box>
               </Grid>
-
-              {/*  //todo: Passenger info */}
               <Grid
                 item
-                xs={12}
-                sm={12}
-                md={1.9}
-                lg={1.9}
+                md={2}
                 sx={{
                   position: "relative",
-                }}
-                ml={{
-                  sm: 1.5,
-                  xs: 0,
-                }}
-                mt={{
-                  xs: 1,
-                  sm: 0,
                 }}
               >
                 <Box
                   sx={{
                     border: "1px solid #D9D5EC",
-                    padding: "10px",
+                    p: 1,
                   }}
                 >
                   <Box>
@@ -906,26 +821,18 @@ const Dashboard = () => {
                   </Box>
                 </Box>
               </Grid>
-              <Grid
-                item
-                md={0.7}
-                ml={{
-                  sm: 1.5,
-                  xs: 0,
-                }}
-                mt={{
-                  xs: 1,
-                  sm: 0,
-                }}
-              >
+              <Grid item md={1}>
                 <Box
                   sx={{
+                    border: "1px solid #D9D5EC",
+                    p: 1,
                     display: "flex",
                     gap: "15px",
                     background: "#A56EB4",
                     borderRadius: "3px",
                     cursor: "pointer",
                     height: "100%",
+
                     justifyContent: "center",
                     alignItems: "center",
                   }}

@@ -18,7 +18,7 @@ import Employee from "../../../public/assests/menuicon/Employeeicon.svg";
 import Reports from "../../../public/assests/menuicon/Reportsicon.svg";
 import Settings from "../../../public/assests/menuicon/Settingsicon.svg";
 import LogOut from "../../../public/assests/menuicon/Logoutiutton.svg";
-import { Container } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -69,9 +69,13 @@ const Sidebar = () => {
   });
 
   return (
-    <div>
-      <div
-        style={{
+    <Box
+      sx={{
+        display: { xs: "none", sm: "block" },
+      }}
+    >
+      <Box
+        sx={{
           background: "#FFFFFF",
           color: "#B4B4CD",
           borderRadius: "5px",
@@ -87,7 +91,7 @@ const Sidebar = () => {
         }}
       >
         {/* Logo */}
-        <div
+        <Box
           style={{
             position: "absolute",
             top: "-25px",
@@ -113,15 +117,15 @@ const Sidebar = () => {
               cursor: "pointer",
             }}
           />
-        </div>
+        </Box>
 
         {/* Menu Items */}
-        <div>
+        <Box>
           {menuItem.map((item, index) => (
             <React.Fragment key={index}>
               <Link href={item.path} passHref>
                 <span style={linkStyle(item.path)}>
-                  <div>
+                  <Box>
                     <Image
                       src={item.icon}
                       alt={item.name}
@@ -134,7 +138,7 @@ const Sidebar = () => {
                             : "none",
                       }}
                     />
-                  </div>
+                  </Box>
                   {isOpen && (
                     <span style={{ fontFamily: "Outfit", fontWeight: 400 }}>
                       {item.name}
@@ -144,9 +148,9 @@ const Sidebar = () => {
               </Link>
             </React.Fragment>
           ))}
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
