@@ -685,7 +685,7 @@ const Dashboard = () => {
     setOpenFrom(false);
     setOpenTo(false);
     setClassBoxOpen(false);
-    // setOpenJourneyDate(false);
+    setOpenJourneyDate(false);
   };
 
   return (
@@ -1134,7 +1134,7 @@ const Dashboard = () => {
                   </Box>
 
                   {openJourneyDate && (
-                    <Box>
+                    <Box className="DatePicker-style">
                       <Calendar
                         className={"dashboard-calendar"}
                         color="#A56EB4"

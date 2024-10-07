@@ -50,3 +50,25 @@ a {
   width: 150%;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
+
+.rdrNextPrevButton {
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 0 0.833em;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  background: #c3a0cd !important;
+  color: #fff !important;
+}
+.rdrPprevButton i {
+  border-color: transparent rgb(253 254 255) transparent transparent !important;
+}
+.rdrNextButton i {
+  border-color: transparent transparent transparent rgb(253 254 255) !important;
+}
+
+.rdrMonthAndYearPickers select {
+  color: #a56eb4 !important;
+}
