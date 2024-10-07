@@ -74,7 +74,7 @@ const Dashboard = () => {
   const [totalPassenger, setTotalPassenger] = useState(1);
   const [openFrom, setOpenFrom] = useState(false);
   const [data, setData] = useState<AirportPayload[]>([]);
-  const [searchKeyword, setSearchKeyword] = useState<string>("dubai");
+  const [searchKeyword, setSearchKeyword] = useState<string>("bangladesh");
 
   const [fromSearchText, setFromSearchText] = useState({
     airportCode: "DAC",
@@ -82,7 +82,6 @@ const Dashboard = () => {
     cityName: "Dhaka",
     countryName: "Bangladesh",
   });
-
 
   const [toSearchText, setToSearchText] = useState({
     airportCode: "CXB",
@@ -202,15 +201,15 @@ const Dashboard = () => {
                     padding: "10px",
                     cursor: "pointer",
                   }}
-                  onClick={() => {
-                    fromSuggestedText(item);
-                  }}
                 >
                   <Box
                     sx={{
                       width: "100%",
                       display: "flex",
                       justifyContent: "space-between",
+                    }}
+                    onClick={() => {
+                      fromSuggestedText(item);
                     }}
                   >
                     <Typography
@@ -258,10 +257,6 @@ const Dashboard = () => {
                         sx={{
                           display: "flex",
                           gap: "8px",
-                          // transition: "all .3s ease-in-out",
-                          // "&:hover": {
-                          //   backgroundColor: "#C3A0CD",
-                          // },
                         }}
                         p={0.5}
                         mt={1}
