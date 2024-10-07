@@ -7,7 +7,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Flight from "../../../public/assests/searchIcon/airplan.svg";
 import Plan from "../../../public/assests/searchIcon/plan.svg";
 import ToPlane from "../../../public/assests/searchIcon/ToPlane.svg";
@@ -24,6 +24,11 @@ import FormControl from "@mui/material/FormControl";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import { styled } from "@mui/material/styles";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+import { Calendar } from "react-date-range";
+import { addDays, format } from "date-fns";
+import moment from "moment";
 
 type MenuItem = {
   name: string;
@@ -148,7 +153,7 @@ const Dashboard = () => {
   const [openFrom, setOpenFrom] = useState(false);
   const [openTo, setOpenTo] = useState(false);
   const [classBoxOpen, setClassBoxOpen] = useState(false);
-
+  const [openJourneyDate, setOpenJourneyDate] = useState(false);
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(0);
   const [kidCount, setKidCount] = useState(0);
@@ -157,6 +162,12 @@ const Dashboard = () => {
   const [airportData, setAirportData] = useState<AirportPayload[]>([]);
   const [searchKeyword, setSearchKeyword] = useState<string>("bangladesh");
   const [className, setClassName] = useState("Economy");
+  const now = useRef(new Date());
+  const [journeyDate, setJourneyDate] = useState(addDays(now.current, 0));
+
+  const [open, setOpen] = useState(false);
+  const today = new Date();
+  const maxDate = new Date();
 
   const [fromSearchText, setFromSearchText] = useState({
     airportCode: "DAC",
@@ -184,6 +195,12 @@ const Dashboard = () => {
   const handleClose = () => {
     setTotalPassenger(adultCount + childCount + kidCount + infantCount);
     setTravelerBoxOpen(false);
+  };
+
+  //todo: end of form Submit section
+  const handleSelect = (date: any) => {
+    setJourneyDate(date);
+    setOpenJourneyDate(false);
   };
 
   //  adult Increment
@@ -668,6 +685,7 @@ const Dashboard = () => {
     setOpenFrom(false);
     setOpenTo(false);
     setClassBoxOpen(false);
+    // setOpenJourneyDate(false);
   };
 
   return (
@@ -896,9 +914,7 @@ const Dashboard = () => {
                     )}
                   </Box>
                 </Grid>
-
                 {/* To arrival airport */}
-
                 <Grid
                   item
                   xs={12}
@@ -1063,7 +1079,18 @@ const Dashboard = () => {
                     position: "relative",
                   }}
                 >
-                  <Box>
+                  <Box
+                    sx={{
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setOpenJourneyDate((prev) => !prev);
+                      setOpenFrom(false);
+                      setOpenTo(false);
+                      setTravelerBoxOpen(false);
+                      setClassBoxOpen(false);
+                    }}
+                  >
                     <Box
                       sx={{
                         display: "flex",
@@ -1091,19 +1118,35 @@ const Dashboard = () => {
                         <Typography
                           sx={{ color: "#6E0A82", fontWeight: "500" }}
                         >
-                          25
+                          {moment(journeyDate).format("DD")}
                         </Typography>
                       </Box>
                       <Box>
                         <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
-                          November
+                          {moment(journeyDate).format("MMMM")}
                         </Typography>
                         <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
-                          Wednesday, 2024
+                          {moment(journeyDate).format("dddd")},{" "}
+                          {moment(journeyDate).format("YYYY")}
                         </Typography>
                       </Box>
                     </Box>
                   </Box>
+
+                  {openJourneyDate && (
+                    <Box>
+                      <Calendar
+                        className={"dashboard-calendar"}
+                        color="#A56EB4"
+                        date={new Date(journeyDate)}
+                        direction="horizontal"
+                        minDate={today}
+                        // maxDate={maxDate}
+                        // months={1}
+                        onChange={handleSelect}
+                      />
+                    </Box>
+                  )}
                 </Grid>
 
                 <Grid
@@ -1508,7 +1551,7 @@ const Dashboard = () => {
                                   color: "#2D233C",
                                 }}
                               >
-                                Infant
+                                Infant on lap
                               </Typography>
                               <Typography
                                 sx={{
@@ -1516,7 +1559,7 @@ const Dashboard = () => {
                                   color: "#B4B4CD",
                                 }}
                               >
-                                Below 24m
+                                Below 24 m
                               </Typography>
                             </Box>
                             <Stack

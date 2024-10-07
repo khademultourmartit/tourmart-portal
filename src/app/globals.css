@@ -40,3 +40,13 @@ a {
     color-scheme: dark;
   }
 }
+
+.dashboard-calendar {
+  position: absolute;
+  top: 125%;
+  left: 0px;
+  border-radius: 5px;
+  z-index: 9999;
+  width: 150%;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
