@@ -757,6 +757,8 @@ const Dashboard = () => {
                   onClick={() => {
                     setOpenFrom((prev) => !prev);
                     setOpenTo(false);
+                    setTravelerBoxOpen(false);
+                    setClassBoxOpen(false);
                   }}
                 >
                   <Box>
@@ -894,6 +896,7 @@ const Dashboard = () => {
                     )}
                   </Box>
                 </Grid>
+
                 {/* To arrival airport */}
 
                 <Grid
@@ -908,6 +911,8 @@ const Dashboard = () => {
                   onClick={() => {
                     setOpenTo((prev) => !prev);
                     setOpenFrom(false);
+                    setTravelerBoxOpen(false);
+                    setClassBoxOpen(false);
                   }}
                 >
                   <Box>
@@ -1024,63 +1029,6 @@ const Dashboard = () => {
                     )}
                   </Box>
                 </Grid>
-
-                {/* <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  md={6}
-                  lg={6}
-                  sx={{
-                    position: "relative",
-                  }}
-                  mt={{
-                    xs: 2,
-                    sm: 0,
-                  }}
-                >
-                  <Box>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "10px",
-                      }}
-                    >
-                      <Image src={Plan} alt="plan Icon" />
-                      <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
-                        To
-                      </Typography>
-                    </Box>
-
-                    <Box mt={1} sx={{ display: "flex", gap: "10px" }}>
-                      <Box
-                        sx={{
-                          height: "36px",
-                          bgcolor: "#F2F0F9",
-                          width: "55px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography
-                          sx={{ color: "#6E0A82", fontWeight: "500" }}
-                        >
-                          {toSearchText?.airportCode}
-                        </Typography>
-                      </Box>
-                      <Box>
-                        <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
-                          {toSearchText?.cityName}, {toSearchText?.countryName}
-                        </Typography>
-                        <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
-                          {toSearchText?.airportName}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </Box>
-                </Grid> */}
               </Grid>
 
               {/*  date */}
@@ -1233,6 +1181,9 @@ const Dashboard = () => {
                       }}
                       onClick={() => {
                         setClassBoxOpen((prev) => !prev);
+                        setOpenFrom(false);
+                        setOpenTo(false);
+                        setTravelerBoxOpen(false);
                       }}
                     >
                       <Image src={calender} alt="plan Icon" />
@@ -1263,6 +1214,9 @@ const Dashboard = () => {
                       }}
                       onClick={() => {
                         setTravelerBoxOpen((prev) => !prev);
+                        setOpenFrom(false);
+                        setOpenTo(false);
+                        setClassBoxOpen(false);
                       }}
                     >
                       <Image src={calender} alt="plan Icon" />
