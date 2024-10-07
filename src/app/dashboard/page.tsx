@@ -15,6 +15,8 @@ import flightClass from "../../../public/assests/searchIcon/flightClass.svg";
 import traveler from "../../../public/assests/searchIcon/traveler.svg";
 import Image from "next/image";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Alert from "@mui/material/Alert";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 type MenuItem = {
   name: string;
@@ -73,7 +75,8 @@ const Dashboard = () => {
   const [infantCount, setInfantCount] = useState(0);
   const [totalPassenger, setTotalPassenger] = useState(1);
   const [openFrom, setOpenFrom] = useState(false);
-  const [data, setData] = useState<AirportPayload[]>([]);
+  const [openTo, setOpenTo] = useState(false);
+  const [airportData, setAirportData] = useState<AirportPayload[]>([]);
   const [searchKeyword, setSearchKeyword] = useState<string>("bangladesh");
 
   const [fromSearchText, setFromSearchText] = useState({
@@ -95,7 +98,7 @@ const Dashboard = () => {
     fetch(url)
       .then((res) => res.json())
       .then((data) => {
-        setData(data?.payload);
+        setAirportData(data?.payload);
       });
   }, [searchKeyword]);
 
@@ -173,6 +176,10 @@ const Dashboard = () => {
     setFromSearchText(data);
   };
 
+  const toSuggestedText = (data: any) => {
+    setToSearchText(data);
+  };
+
   const fromGetSuggetion = () => {
     return (
       <Box
@@ -188,13 +195,11 @@ const Dashboard = () => {
             maxHeight: "230px",
             overflowY: "auto",
             background: "#fff",
-            // boxShadow:
-            //   "rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px",
             "&::-webkit-scrollbar": { width: "5px" },
           }}
         >
-          {data?.length !== 0 ? (
-            data?.map((item) => (
+          {airportData?.length !== 0 ? (
+            airportData?.map((item) => (
               <>
                 <Box
                   sx={{
@@ -376,6 +381,207 @@ const Dashboard = () => {
     );
   };
 
+  const toGetSuggetion = () => {
+    return (
+      <Box
+        style={{
+          height: "fit-content",
+          position: "relative",
+          width: "100%",
+          zIndex: "100",
+        }}
+      >
+        <Box
+          sx={{
+            maxHeight: "230px",
+            overflowY: "auto",
+            background: "#fff",
+            "&::-webkit-scrollbar": { width: "5px" },
+          }}
+        >
+          {airportData?.length !== 0 ? (
+            airportData?.map((item) => (
+              <>
+                <Box
+                  sx={{
+                    padding: "10px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                    onClick={() => {
+                      toSuggestedText(item);
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        color: "#A56EB4",
+                        fontSize: "13px",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
+                      }}
+                    >
+                      <LocationOnIcon
+                        sx={{
+                          color: "#A56EB4",
+                          fontSize: "20px",
+                        }}
+                      />
+                      {item?.cityName}
+                    </Typography>
+
+                    <Typography
+                      style={{
+                        fontSize: "11px",
+                        color: "#6E6996",
+                      }}
+                    >
+                      All Airport
+                    </Typography>
+                  </Box>
+
+                  <Box my={1}>
+                    <hr
+                      style={{
+                        backgroundColor: "#F2F0F9",
+                        height: "2px",
+                        border: "none",
+                      }}
+                    ></hr>
+                  </Box>
+
+                  {item?.airports ? (
+                    item?.airports?.map((data) => (
+                      <Box
+                        key={data?.id}
+                        sx={{
+                          display: "flex",
+                          gap: "8px",
+                        }}
+                        p={0.5}
+                        mt={1}
+                        onClick={() => {
+                          toSuggestedText(data);
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: "30px",
+                            bgcolor: "#F2F0F9",
+                            width: "45px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              color: "#6E0A82",
+                              fontWeight: "500",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {data?.airportCode}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              color: "#2D233C",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {data?.cityName}, {data?.countryName}
+                          </Typography>
+                          <Typography
+                            sx={{ color: "#6E6996", fontSize: "10px" }}
+                          >
+                            {data?.airportName}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    ))
+                  ) : (
+                    <>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          gap: "8px",
+                          // transition: "all .3s ease-in-out",
+                          // "&:hover": {
+                          //   backgroundColor: "#C3A0CD",
+                          // },
+                        }}
+                        p={0.5}
+                        mt={1}
+                        onClick={() => {
+                          toSuggestedText(item);
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: "30px",
+                            bgcolor: "#F2F0F9",
+                            width: "45px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              color: "#6E0A82",
+                              fontWeight: "500",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {item?.airportCode}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              color: "#2D233C",
+                              fontSize: "12px",
+                            }}
+                          >
+                            {item?.cityName}, {item?.countryName}
+                          </Typography>
+                          <Typography
+                            sx={{ color: "#6E6996", fontSize: "10px" }}
+                          >
+                            {item?.airportName}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </>
+                  )}
+                </Box>
+              </>
+            ))
+          ) : (
+            <Box>
+              <Typography
+                style={{
+                  color: "#DC143C",
+                  paddingLeft: "10px",
+                }}
+              >
+                Not found
+              </Typography>
+            </Box>
+          )}
+        </Box>
+      </Box>
+    );
+  };
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box>
@@ -438,7 +644,6 @@ const Dashboard = () => {
               rowSpacing={{ lg: 0, md: 0, sm: 1, xs: 1 }}
               columnSpacing={0.1}
             >
-              {/* From */}
               <Grid
                 item
                 container
@@ -451,6 +656,7 @@ const Dashboard = () => {
                   padding: "10px",
                 }}
               >
+                {/* From arrival  airport */}
                 <Grid
                   item
                   xs={12}
@@ -462,6 +668,7 @@ const Dashboard = () => {
                   }}
                   onClick={() => {
                     setOpenFrom((prev) => !prev);
+                    setOpenTo(false);
                   }}
                 >
                   <Box>
@@ -477,6 +684,26 @@ const Dashboard = () => {
                         From
                       </Typography>
                     </Box>
+
+                    {/* {fromSearchText?.airportCode ===
+                      toSearchText?.airportCode && (
+                      <Stack
+                        style={{
+                          position: "absolute",
+                          top: "100%",
+                          left: "0",
+                          width: "100%",
+                        }}
+                      >
+                        <Alert
+                          icon={<ErrorOutlineIcon fontSize="inherit" />}
+                          severity="error"
+                          sx={{ fontSize: "11px" }}
+                        >
+                          Can't choose same place!
+                        </Alert>
+                      </Stack>
+                    )} */}
 
                     {openFrom ? (
                       <Box
@@ -505,6 +732,24 @@ const Dashboard = () => {
                           }}
                         />
                       </Box>
+                    ) : fromSearchText?.airportCode ===
+                      toSearchText?.airportCode ? (
+                      <Stack
+                        style={{
+                          position: "absolute",
+                          top: "35%",
+                          left: "0",
+                          width: "90%",
+                        }}
+                      >
+                        <Alert
+                          icon={<ErrorOutlineIcon fontSize="inherit" />}
+                          severity="error"
+                          sx={{ fontSize: "11px" }}
+                        >
+                          Can't choose same place!
+                        </Alert>
+                      </Stack>
                     ) : (
                       <Box sx={{ display: "flex", gap: "10px" }} mt={1}>
                         <Box
@@ -561,7 +806,138 @@ const Dashboard = () => {
                     )}
                   </Box>
                 </Grid>
+                {/* To arrival airport */}
+
                 <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={6}
+                  lg={6}
+                  sx={{
+                    position: "relative",
+                  }}
+                  onClick={() => {
+                    setOpenTo((prev) => !prev);
+                    setOpenFrom(false);
+                  }}
+                >
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "10px",
+                      }}
+                    >
+                      <Image src={Plan} alt="plan Icon" />
+                      <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
+                        From
+                      </Typography>
+                    </Box>
+
+                    {openTo ? (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          color: "#003566",
+                          backgroundColor: "#fff",
+                        }}
+                      >
+                        <input
+                          autoComplete="off"
+                          autoFocus
+                          onChange={(e) => setSearchKeyword(e.target.value)}
+                          placeholder="Search an airport..."
+                          style={{
+                            color: "#9493BD",
+                            fontWeight: 500,
+                            width: "100%",
+                            height: "40px",
+                            backgroundColor: "transparent",
+                            border: "none",
+                            outline: "none",
+                            paddingTop: "10px",
+                          }}
+                        />
+                      </Box>
+                    ) : fromSearchText?.airportCode ===
+                      toSearchText?.airportCode ? (
+                      <Stack
+                        style={{
+                          position: "absolute",
+                          top: "35%",
+                          left: "0",
+                          width: "90%",
+                        }}
+                      >
+                        <Alert
+                          icon={<ErrorOutlineIcon fontSize="inherit" />}
+                          severity="error"
+                          sx={{ fontSize: "11px" }}
+                        >
+                          Can't choose same place!
+                        </Alert>
+                      </Stack>
+                    ) : (
+                      <Box sx={{ display: "flex", gap: "10px" }} mt={1}>
+                        <Box
+                          sx={{
+                            height: "36px",
+                            bgcolor: "#F2F0F9",
+                            width: "55px",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            sx={{ color: "#6E0A82", fontWeight: "500" }}
+                          >
+                            {toSearchText?.airportCode}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              color: "#2D233C",
+                              fontSize: "14px",
+                            }}
+                          >
+                            {toSearchText?.cityName},{toSearchText?.countryName}
+                          </Typography>
+                          <Typography
+                            sx={{ color: "#6E6996", fontSize: "11px" }}
+                          >
+                            {toSearchText?.airportName}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    )}
+
+                    {openTo && (
+                      <Box
+                        style={{
+                          position: "absolute",
+                          top: "120%",
+                          left: "0",
+                          right: "0",
+                          width: "100%",
+                          backgroundColor: "#ffffff",
+                          height: "fit-content",
+                          zIndex: 100,
+                          border: "1px solid #6E0A82",
+                        }}
+                      >
+                        <Box>{toGetSuggetion()}</Box>
+                      </Box>
+                    )}
+                  </Box>
+                </Grid>
+
+                {/* <Grid
                   item
                   xs={12}
                   sm={12}
@@ -616,7 +992,7 @@ const Dashboard = () => {
                       </Box>
                     </Box>
                   </Box>
-                </Grid>
+                </Grid> */}
               </Grid>
 
               {/*  date */}
