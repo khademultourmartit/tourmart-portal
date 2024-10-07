@@ -10,6 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import Flight from "../../../public/assests/searchIcon/airplan.svg";
 import Plan from "../../../public/assests/searchIcon/plan.svg";
+import ToPlane from "../../../public/assests/searchIcon/ToPlane.svg";
 import calender from "../../../public/assests/searchIcon/calender.svg";
 import flightClass from "../../../public/assests/searchIcon/flightClass.svg";
 import traveler from "../../../public/assests/searchIcon/traveler.svg";
@@ -17,6 +18,12 @@ import Image from "next/image";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Alert from "@mui/material/Alert";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import AddIcon from "@mui/icons-material/Add";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import RadioGroup from "@mui/material/RadioGroup";
+import Radio from "@mui/material/Radio";
+import { styled } from "@mui/material/styles";
 
 type MenuItem = {
   name: string;
@@ -65,19 +72,91 @@ interface AirportPayload {
   airports: Airport[];
 }
 
+const BpIcon = styled("span")(({ theme }) => ({
+  borderRadius: "50%",
+  width: 16,
+  height: 16,
+  boxShadow:
+    theme.palette.mode === "dark"
+      ? "0 0 0 1px rgb(16 22 26 / 40%)"
+      : "inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)",
+  backgroundColor: theme.palette.mode === "dark" ? "#394b59" : "#f5f8fa",
+  backgroundImage:
+    theme.palette.mode === "dark"
+      ? "linear-gradient(180deg,hsla(0,0%,100%,.05),hsla(0,0%,100%,0))"
+      : "linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))",
+  ".Mui-focusVisible &": {
+    outline: "2px auto #003566",
+    outlineOffset: 2,
+  },
+  "input:hover ~ &": {
+    backgroundColor: theme.palette.mode === "dark" ? "#30404d" : "#ebf1f5",
+  },
+  "input:disabled ~ &": {
+    boxShadow: "none",
+    background:
+      theme.palette.mode === "dark"
+        ? "rgba(57,75,89,.5)"
+        : "rgba(206,217,224,.5)",
+  },
+}));
+
+const BpCheckedIcon = styled(BpIcon)({
+  backgroundColor: "var(--primary-color)",
+  backgroundImage:
+    "linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))",
+  "&:before": {
+    display: "block",
+    width: 16,
+    height: 16,
+    backgroundImage: "radial-gradient(#fff,#fff 28%,transparent 32%)",
+    content: '""',
+  },
+  "input:hover ~ &": {
+    backgroundColor: "var(--secondary-color)",
+  },
+});
+
+function BpRadio(props: any) {
+  return (
+    <Radio
+      sx={{
+        "&:hover": {
+          bgcolor: "transparent",
+        },
+      }}
+      disableRipple
+      color="default"
+      checkedIcon={<BpCheckedIcon />}
+      icon={<BpIcon />}
+      {...props}
+    />
+  );
+}
+
 const Dashboard = () => {
+  const flightClasses = [
+    "Economy",
+    "Premium Economy",
+    "Business",
+    "First Class",
+  ];
+
   const [tabs, setTabs] = useState("Flight");
   const [currentMenu, setCurrentMenu] = useState("One Way");
   const [travelerBoxOpen, setTravelerBoxOpen] = useState(false);
+  const [openFrom, setOpenFrom] = useState(false);
+  const [openTo, setOpenTo] = useState(false);
+  const [classBoxOpen, setClassBoxOpen] = useState(false);
+
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(0);
   const [kidCount, setKidCount] = useState(0);
   const [infantCount, setInfantCount] = useState(0);
   const [totalPassenger, setTotalPassenger] = useState(1);
-  const [openFrom, setOpenFrom] = useState(false);
-  const [openTo, setOpenTo] = useState(false);
   const [airportData, setAirportData] = useState<AirportPayload[]>([]);
   const [searchKeyword, setSearchKeyword] = useState<string>("bangladesh");
+  const [className, setClassName] = useState("Economy");
 
   const [fromSearchText, setFromSearchText] = useState({
     airportCode: "DAC",
@@ -106,10 +185,7 @@ const Dashboard = () => {
     setTotalPassenger(adultCount + childCount + kidCount + infantCount);
     setTravelerBoxOpen(false);
   };
-  const handleClickAway = () => {
-    setTravelerBoxOpen(false);
-    setOpenFrom(false);
-  };
+
   //  adult Increment
   function adultInclement(e: React.FormEvent) {
     e.preventDefault();
@@ -582,6 +658,18 @@ const Dashboard = () => {
     );
   };
 
+  const handleClassName = (event: any) => {
+    setClassName(event.target.value);
+    setClassBoxOpen(false);
+  };
+
+  const handleClickAway = () => {
+    setTravelerBoxOpen(false);
+    setOpenFrom(false);
+    setOpenTo(false);
+    setClassBoxOpen(false);
+  };
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box>
@@ -649,8 +737,8 @@ const Dashboard = () => {
                 container
                 xs={12}
                 sm={12}
-                md={5}
-                lg={5}
+                md={5.5}
+                lg={5.5}
                 style={{
                   border: "1px solid #D9D5EC",
                   padding: "10px",
@@ -830,9 +918,9 @@ const Dashboard = () => {
                         gap: "10px",
                       }}
                     >
-                      <Image src={Plan} alt="plan Icon" />
+                      <Image src={ToPlane} alt="plan Icon" />
                       <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
-                        From
+                        To
                       </Typography>
                     </Box>
 
@@ -1001,8 +1089,8 @@ const Dashboard = () => {
                 container
                 xs={12}
                 sm={12}
-                md={4}
-                lg={4}
+                md={3.5}
+                lg={3.5}
                 style={{
                   border: "1px solid #D9D5EC",
                   padding: "10px",
@@ -1021,8 +1109,8 @@ const Dashboard = () => {
                   item
                   xs={6}
                   sm={6}
-                  md={6}
-                  lg={6}
+                  md={7.5}
+                  lg={7.5}
                   sx={{
                     position: "relative",
                   }}
@@ -1074,10 +1162,11 @@ const Dashboard = () => {
                   item
                   xs={6}
                   sm={6}
-                  md={6}
-                  lg={6}
+                  md={4.5}
+                  lg={4.5}
                   sx={{
                     position: "relative",
+                    cursor: "pointer",
                   }}
                 >
                   <Box
@@ -1102,6 +1191,9 @@ const Dashboard = () => {
                       <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
                         Add Return
                       </Typography>
+                    </Box>
+                    <Box>
+                      <AddIcon sx={{ fontSize: "40px", color: "#9493BD" }} />
                     </Box>
                   </Box>
                 </Grid>
@@ -1139,6 +1231,9 @@ const Dashboard = () => {
                         alignItems: "center",
                         gap: "10px",
                       }}
+                      onClick={() => {
+                        setClassBoxOpen((prev) => !prev);
+                      }}
                     >
                       <Image src={calender} alt="plan Icon" />
                       <Typography
@@ -1148,7 +1243,7 @@ const Dashboard = () => {
                           fontWeight: 500,
                         }}
                       >
-                        Economy
+                        {className}
                       </Typography>
                     </Box>
 
@@ -1195,8 +1290,9 @@ const Dashboard = () => {
                           right: "0px",
                           zIndex: 100,
                           borderRadius: "5px",
-                          backgroundColor: "#A56EB4",
+                          backgroundColor: "#FFFFFF",
                           width: "260px",
+                          border: "1px solid #6E0A82",
                         }}
                       >
                         <Box width="250px" p={2}>
@@ -1204,7 +1300,7 @@ const Dashboard = () => {
                             style={{
                               textAlign: "left",
                               marginBottom: "5px",
-                              color: "#fff",
+                              color: "#2D233C",
                               fontWeight: 400,
                             }}
                           >
@@ -1217,6 +1313,24 @@ const Dashboard = () => {
                             alignItems="center"
                             pb={1}
                           >
+                            <Box width="60%">
+                              <Typography
+                                sx={{
+                                  fontSize: "14px",
+                                  color: "#2D233C",
+                                }}
+                              >
+                                Adult
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  fontSize: "12px",
+                                  color: "#B4B4CD",
+                                }}
+                              >
+                                Aged 12y+
+                              </Typography>
+                            </Box>
                             <Stack
                               direction="row"
                               spacing={1}
@@ -1226,16 +1340,16 @@ const Dashboard = () => {
                               <button
                                 onClick={adultDecrement}
                                 style={{
-                                  backgroundColor: "#fff",
-                                  color: "var(--white)",
+                                  backgroundColor: "#C3A0CD",
+                                  color: "#ffffff",
                                   border: "none",
-                                  width: "25px",
-                                  height: "25px",
-                                  fontSize: "20px",
+                                  width: "22px",
+                                  height: "22px",
+                                  fontSize: "25px",
                                   display: "flex",
                                   justifyContent: "center",
                                   alignItems: "center",
-                                  borderRadius: "2px",
+                                  borderRadius: "50%",
                                   cursor: "pointer",
                                 }}
                               >
@@ -1243,8 +1357,8 @@ const Dashboard = () => {
                               </button>
                               <Typography
                                 sx={{
-                                  fontSize: "14px",
-                                  color: "#fff",
+                                  fontSize: "16px",
+                                  color: "#2D233C",
                                 }}
                               >
                                 {adultCount}
@@ -1252,41 +1366,24 @@ const Dashboard = () => {
                               <button
                                 onClick={adultInclement}
                                 style={{
-                                  backgroundColor: "#fff",
-                                  color: "var(--white)",
+                                  backgroundColor: "#C3A0CD",
+                                  color: "#ffffff",
                                   border: "none",
-                                  width: "25px",
-                                  height: "25px",
-                                  fontSize: "20px",
+                                  width: "22px",
+                                  height: "22px",
+                                  fontSize: "25px",
                                   display: "flex",
                                   justifyContent: "center",
                                   alignItems: "center",
-                                  borderRadius: "2px",
+                                  borderRadius: "50%",
                                   cursor: "pointer",
                                 }}
                               >
                                 +
                               </button>
                             </Stack>
-                            <Box width="60%">
-                              <Typography
-                                sx={{
-                                  fontSize: "14px",
-                                  color: "#fff",
-                                }}
-                              >
-                                Adult
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontSize: "12px",
-                                  color: "#fff",
-                                }}
-                              >
-                                12+ yrs
-                              </Typography>
-                            </Box>
                           </Stack>
+
                           <Stack
                             direction="row"
                             spacing={4}
@@ -1294,6 +1391,24 @@ const Dashboard = () => {
                             alignItems="center"
                             pb={1}
                           >
+                            <Box width="60%">
+                              <Typography
+                                sx={{
+                                  fontSize: "14px",
+                                  color: "#2D233C",
+                                }}
+                              >
+                                Child
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  fontSize: "12px",
+                                  color: "#B4B4CD",
+                                }}
+                              >
+                                Aged 5y - 12y
+                              </Typography>
+                            </Box>
                             <Stack
                               direction="row"
                               spacing={1}
@@ -1303,16 +1418,16 @@ const Dashboard = () => {
                               <button
                                 onClick={childDecrement}
                                 style={{
-                                  backgroundColor: "#fff",
-                                  color: "var(--white)",
+                                  backgroundColor: "#C3A0CD",
+                                  color: "#ffffff",
                                   border: "none",
-                                  width: "25px",
-                                  height: "25px",
-                                  fontSize: "20px",
+                                  width: "22px",
+                                  height: "22px",
+                                  fontSize: "25px",
                                   display: "flex",
                                   justifyContent: "center",
                                   alignItems: "center",
-                                  borderRadius: "2px",
+                                  borderRadius: "50%",
                                   cursor: "pointer",
                                 }}
                               >
@@ -1320,8 +1435,8 @@ const Dashboard = () => {
                               </button>
                               <Typography
                                 sx={{
-                                  fontSize: "14px",
-                                  color: "#fff",
+                                  fontSize: "16px",
+                                  color: "#2D233C",
                                 }}
                               >
                                 {childCount}
@@ -1329,41 +1444,24 @@ const Dashboard = () => {
                               <button
                                 onClick={childIncrement}
                                 style={{
-                                  backgroundColor: "#fff",
-                                  color: "var(--white)",
+                                  backgroundColor: "#C3A0CD",
+                                  color: "#ffffff",
                                   border: "none",
-                                  width: "25px",
-                                  height: "25px",
-                                  fontSize: "20px",
+                                  width: "22px",
+                                  height: "22px",
+                                  fontSize: "25px",
                                   display: "flex",
                                   justifyContent: "center",
                                   alignItems: "center",
-                                  borderRadius: "2px",
+                                  borderRadius: "50%",
                                   cursor: "pointer",
                                 }}
                               >
                                 +
                               </button>
                             </Stack>
-                            <Box width="60%">
-                              <Typography
-                                sx={{
-                                  fontSize: "14px",
-                                  color: "#fff",
-                                }}
-                              >
-                                Child
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontSize: "12px",
-                                  color: "#fff",
-                                }}
-                              >
-                                5- less than 12 yrs
-                              </Typography>
-                            </Box>
                           </Stack>
+
                           <Stack
                             direction="row"
                             spacing={4}
@@ -1371,6 +1469,24 @@ const Dashboard = () => {
                             alignItems="center"
                             pb={1}
                           >
+                            <Box width="60%">
+                              <Typography
+                                sx={{
+                                  fontSize: "14px",
+                                  color: "#2D233C",
+                                }}
+                              >
+                                Kids
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  fontSize: "12px",
+                                  color: "#B4B4CD",
+                                }}
+                              >
+                                Aged 2y - 5y
+                              </Typography>
+                            </Box>
                             <Stack
                               direction="row"
                               spacing={1}
@@ -1380,16 +1496,16 @@ const Dashboard = () => {
                               <button
                                 onClick={kidDecrement}
                                 style={{
-                                  backgroundColor: "#fff",
-                                  color: "var(--white)",
+                                  backgroundColor: "#C3A0CD",
+                                  color: "#ffffff",
                                   border: "none",
-                                  width: "25px",
-                                  height: "25px",
-                                  fontSize: "20px",
+                                  width: "22px",
+                                  height: "22px",
+                                  fontSize: "25px",
                                   display: "flex",
                                   justifyContent: "center",
                                   alignItems: "center",
-                                  borderRadius: "2px",
+                                  borderRadius: "50%",
                                   cursor: "pointer",
                                 }}
                               >
@@ -1397,8 +1513,8 @@ const Dashboard = () => {
                               </button>
                               <Typography
                                 sx={{
-                                  fontSize: "14px",
-                                  color: "#fff",
+                                  fontSize: "16px",
+                                  color: "#2D233C",
                                 }}
                               >
                                 {kidCount}
@@ -1406,40 +1522,22 @@ const Dashboard = () => {
                               <button
                                 onClick={kidInclement}
                                 style={{
-                                  backgroundColor: "#fff",
-                                  color: "var(--white)",
+                                  backgroundColor: "#C3A0CD",
+                                  color: "#ffffff",
                                   border: "none",
-                                  width: "25px",
-                                  height: "25px",
-                                  fontSize: "20px",
+                                  width: "22px",
+                                  height: "22px",
+                                  fontSize: "25px",
                                   display: "flex",
                                   justifyContent: "center",
                                   alignItems: "center",
-                                  borderRadius: "2px",
+                                  borderRadius: "50%",
                                   cursor: "pointer",
                                 }}
                               >
                                 +
                               </button>
                             </Stack>
-                            <Box width="60%">
-                              <Typography
-                                sx={{
-                                  fontSize: "14px",
-                                  color: "#fff",
-                                }}
-                              >
-                                Kid
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontSize: "12px",
-                                  color: "#fff",
-                                }}
-                              >
-                                2- less than 5 yrs
-                              </Typography>
-                            </Box>
                           </Stack>
 
                           <Stack
@@ -1449,6 +1547,24 @@ const Dashboard = () => {
                             alignItems="center"
                             pb={1}
                           >
+                            <Box width="60%">
+                              <Typography
+                                sx={{
+                                  fontSize: "14px",
+                                  color: "#2D233C",
+                                }}
+                              >
+                                Infant
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  fontSize: "12px",
+                                  color: "#B4B4CD",
+                                }}
+                              >
+                                Below 24m
+                              </Typography>
+                            </Box>
                             <Stack
                               direction="row"
                               spacing={1}
@@ -1458,16 +1574,16 @@ const Dashboard = () => {
                               <button
                                 onClick={infantDecrement}
                                 style={{
-                                  backgroundColor: "#fff",
-                                  color: "var(--white)",
+                                  backgroundColor: "#C3A0CD",
+                                  color: "#ffffff",
                                   border: "none",
-                                  width: "25px",
-                                  height: "25px",
-                                  fontSize: "20px",
+                                  width: "22px",
+                                  height: "22px",
+                                  fontSize: "25px",
                                   display: "flex",
                                   justifyContent: "center",
                                   alignItems: "center",
-                                  borderRadius: "2px",
+                                  borderRadius: "50%",
                                   cursor: "pointer",
                                 }}
                               >
@@ -1475,8 +1591,8 @@ const Dashboard = () => {
                               </button>
                               <Typography
                                 sx={{
-                                  fontSize: "14px",
-                                  color: "#fff",
+                                  fontSize: "16px",
+                                  color: "#2D233C",
                                 }}
                               >
                                 {infantCount}
@@ -1484,94 +1600,109 @@ const Dashboard = () => {
                               <button
                                 onClick={infantIncrement}
                                 style={{
-                                  backgroundColor: "#fff",
-                                  color: "var(--white)",
+                                  backgroundColor: "#C3A0CD",
+                                  color: "#ffffff",
                                   border: "none",
-                                  width: "25px",
-                                  height: "25px",
-                                  fontSize: "20px",
+                                  width: "22px",
+                                  height: "22px",
+                                  fontSize: "25px",
                                   display: "flex",
                                   justifyContent: "center",
                                   alignItems: "center",
-                                  borderRadius: "2px",
+                                  borderRadius: "50%",
                                   cursor: "pointer",
                                 }}
                               >
                                 +
                               </button>
                             </Stack>
-                            <Box width="60%">
-                              <Typography
-                                sx={{
-                                  fontSize: "14px",
-                                  color: "#fff",
-                                }}
-                              >
-                                Infant
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  fontSize: "12px",
-                                  color: "#fff",
-                                }}
-                              >
-                                0 - 23 month
-                              </Typography>
-                            </Box>
                           </Stack>
-                          {/* <FormControl>
-                          <RadioGroup
-                            value={className}
-                            onChange={handleClassName}
-                          >
-                            <Grid container spacing={0}>
-                              {flightClasses.map((classes, i) => (
-                                <Grid key={i} item xs={6}>
-                                  <FormControlLabel
-                                    value={classes}
-                                    control={
-                                      <Radio
-                                        sx={{
-                                          color: "#fff",
-                                          "&.Mui-checked": {
-                                            color: "#fff",
-                                          },
-                                        }}
-                                      />
-                                    }
-                                    label={
-                                      <Typography
-                                        sx={{
-                                          color: "#fff",
-                                          fontSize: "11px",
-                                        }}
-                                      >
-                                        {classes.replace(
-                                          /([a-z])([A-Z])/g,
-                                          "$1 $2"
-                                        )}
-                                      </Typography>
-                                    }
-                                  />
-                                </Grid>
-                              ))}
-                            </Grid>
-                          </RadioGroup>
-                        </FormControl> */}
-
                           <Box mt={2} style={{ textAlign: "right" }}>
                             <Button
                               size="small"
                               onClick={handleClose}
                               className="shine-effect"
                               style={{
-                                backgroundColor: "#fff",
-                                color: "var(--white)",
+                                backgroundColor: "#C3A0CD",
+                                color: "#fff",
                               }}
                             >
                               DONE
                             </Button>
                           </Box>
+                        </Box>
+                      </Box>
+                    )}
+
+                    {classBoxOpen && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top: {
+                            lg: "105%",
+                            md: "100%",
+                            sm: "100%",
+                            xs: "100%",
+                          },
+                          right: "0px",
+                          zIndex: 100,
+                          borderRadius: "5px",
+                          backgroundColor: "#FFFFFF",
+                          width: "260px",
+                          border: "1px solid #6E0A82",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <Box p={2}>
+                          <Typography
+                            style={{
+                              textAlign: "left",
+                              marginBottom: "5px",
+                              color: "#2D233C",
+                              fontWeight: 400,
+                            }}
+                          >
+                            Class Name
+                          </Typography>
+                          <FormControl>
+                            <RadioGroup
+                              value={className}
+                              onChange={handleClassName}
+                            >
+                              <Grid container spacing={0}>
+                                {flightClasses.map((classes, i) => (
+                                  <Grid key={i} item xs={12}>
+                                    <FormControlLabel
+                                      value={classes}
+                                      control={
+                                        <Radio
+                                          sx={{
+                                            color: "#C3A0CD",
+                                            "&.Mui-checked": {
+                                              color: "#6E0A82",
+                                            },
+                                          }}
+                                        />
+                                      }
+                                      label={
+                                        <Typography
+                                          sx={{
+                                            color: "#2D233C",
+                                            fontSize: "11px",
+                                          }}
+                                        >
+                                          {classes.replace(
+                                            /([a-z])([A-Z])/g,
+                                            "$1 $2"
+                                          )}
+                                        </Typography>
+                                      }
+                                    />
+                                  </Grid>
+                                ))}
+                              </Grid>
+                            </RadioGroup>
+                          </FormControl>
                         </Box>
                       </Box>
                     )}
