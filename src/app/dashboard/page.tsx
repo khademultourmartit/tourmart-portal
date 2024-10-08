@@ -12,6 +12,7 @@ import Flight from "../../../public/assests/searchIcon/airplan.svg";
 import Plan from "../../../public/assests/searchIcon/plan.svg";
 import ToPlane from "../../../public/assests/searchIcon/ToPlane.svg";
 import calender from "../../../public/assests/searchIcon/calender.svg";
+import reverse from "../../../public/assests/searchIcon/reverse.svg";
 import flightClass from "../../../public/assests/searchIcon/flightClass.svg";
 import traveler from "../../../public/assests/searchIcon/traveler.svg";
 import Image from "next/image";
@@ -29,7 +30,9 @@ import "react-date-range/dist/theme/default.css";
 import { Calendar } from "react-date-range";
 import { addDays, format } from "date-fns";
 import moment from "moment";
-
+// import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 type MenuItem = {
   name: string;
   icon: string;
@@ -47,7 +50,7 @@ type FlightMenu = {
 
 const flightMenu: FlightMenu[] = [
   {
-    name: "One Way",
+    name: "Oneway",
   },
   {
     name: "Round Trip",
@@ -140,6 +143,7 @@ function BpRadio(props: any) {
 }
 
 const Dashboard = () => {
+  // const router = useRouter();
   const flightClasses = [
     "Economy",
     "Premium Economy",
@@ -148,7 +152,7 @@ const Dashboard = () => {
   ];
 
   const [tabs, setTabs] = useState("Flight");
-  const [currentMenu, setCurrentMenu] = useState("One Way");
+  const [currentMenu, setCurrentMenu] = useState("Oneway");
   const [travelerBoxOpen, setTravelerBoxOpen] = useState(false);
   const [openFrom, setOpenFrom] = useState(false);
   const [openTo, setOpenTo] = useState(false);
@@ -163,6 +167,8 @@ const Dashboard = () => {
   const [searchKeyword, setSearchKeyword] = useState<string>("bangladesh");
   const [className, setClassName] = useState("Economy");
   const now = useRef(new Date());
+  const router = useRouter();
+
   const [journeyDate, setJourneyDate] = useState(addDays(now.current, 0));
 
   const [open, setOpen] = useState(false);
@@ -688,6 +694,87 @@ const Dashboard = () => {
     setOpenJourneyDate(false);
   };
 
+  const handleReverseDestination = (e: any) => {
+    e.stopPropagation();
+    setFromSearchText(toSearchText);
+    setToSearchText(fromSearchText);
+  };
+
+  const handleSearch = () => {
+    const body = {
+      pointOfSale: "BD",
+      searchCriteria: {
+        tripType: currentMenu,
+        originDestination: [
+          {
+            departure: {
+              locationCode: fromSearchText?.airportCode,
+              date: moment(journeyDate).format("YYYY-MM-DD"),
+            },
+            arrival: {
+              locationCode: toSearchText?.airportCode,
+            },
+          },
+        ],
+      },
+      passengerInfo: [
+        ...[...new Array(adultCount)].map((_, i) => ({
+          passengerType: "ADT",
+          passengerID: "PAS" + (i + 1),
+        })),
+        ...[...new Array(childCount)].map((_, i) => ({
+          passengerType: "CHD",
+          passengerID: "CHD" + (i + 1),
+        })),
+        ...[...new Array(infantCount)].map((_, i) => ({
+          passengerType: "INF",
+          passengerID: "INF" + (i + 1),
+        })),
+      ],
+      preferences: {
+        cabinClass: className,
+        maxStops: "All",
+        carrierPreference: [],
+        directFlightsOnly: false,
+        nearbyAirports: true,
+      },
+      pricing: {
+        currency: "BDT",
+        isRefundableOnly: false,
+        maxUpsells: 4,
+      },
+      responseOptions: {
+        format: "JSON",
+        version: "V4",
+        includeUpsells: true,
+        requestOptions: "TwoHundred",
+        isDomesticMultiOneWayOffer: true,
+      },
+      additionalInfo: {
+        conversationId: "A123456",
+        target: "Test",
+      },
+    };
+
+    const bodyString = JSON.stringify(body);
+
+    // Perform POST request
+    axios
+      .post("http://82.112.238.135:112/api/flight/flight-search", bodyString, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        // Handle success - navigate to searchResult page
+        console.log("Search Response:", response.data);
+        // router.push(`/dashboard/searchResult`);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("Search Error:", error);
+      });
+  };
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Box>
@@ -772,14 +859,15 @@ const Dashboard = () => {
                   sx={{
                     position: "relative",
                   }}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
                     setOpenFrom((prev) => !prev);
                     setOpenTo(false);
                     setTravelerBoxOpen(false);
                     setClassBoxOpen(false);
                   }}
                 >
-                  <Box>
+                  <Box sx={{ position: "relative" }}>
                     <Box
                       sx={{
                         display: "flex",
@@ -912,6 +1000,18 @@ const Dashboard = () => {
                         <Box>{fromGetSuggetion()}</Box>
                       </Box>
                     )}
+
+                    <Image
+                      onClick={handleReverseDestination}
+                      style={{
+                        position: "absolute",
+                        right: "10px",
+                        top: "10px",
+                        cursor: "pointer",
+                      }}
+                      src={reverse}
+                      alt="reverse icon"
+                    />
                   </Box>
                 </Grid>
                 {/* To arrival airport */}
@@ -1717,6 +1817,7 @@ const Dashboard = () => {
                   xs: 1,
                   sm: 0,
                 }}
+                onClick={handleSearch}
               >
                 <Box
                   sx={{
