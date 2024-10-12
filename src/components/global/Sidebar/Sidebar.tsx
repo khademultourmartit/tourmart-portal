@@ -3,21 +3,21 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import Logo from "../../../public/assests/menuicon/Logo.svg";
-import Dashboardicon from "../../../public/assests/menuicon/dashboardicon.svg";
-import Bookings from "../../../public/assests/menuicon/bookingsIcon.svg";
-import VendorIcon from "../../../public/assests/menuicon/Vendoricon.svg";
-import Agent from "../../../public/assests/menuicon/AgentIcon.svg";
-import Customer from "../../../public/assests/menuicon/Customericon.svg";
-import MarketSales from "../../../public/assests/menuicon/Salesicon.svg";
-import Promotion from "../../../public/assests/menuicon/Dealsicon.svg";
-import Accounts from "../../../public/assests/menuicon/Accountsicon.svg";
+// import Logo from "../../../public/assests/menuicon/Logo.svg";
+import Dashboardicon from "../../../../public/assests/menuicon/dashboardicon.svg";
+import Bookings from "../../../../public/assests/menuicon/bookingsIcon.svg";
+import VendorIcon from "../../../../public/assests/menuicon/Vendoricon.svg";
+import Agent from "../../../../public/assests/menuicon/AgentIcon.svg";
+import Customer from "../../../../public/assests/menuicon/Customericon.svg";
+import MarketSales from "../../../../public/assests/menuicon/Salesicon.svg";
+import Promotion from "../../../../public/assests/menuicon/Dealsicon.svg";
+import Accounts from "../../../../public/assests/menuicon/Accountsicon.svg";
 import Transaction from "../../../public/assests/menuicon/Transactionicon.svg";
-import Journal from "../../../public/assests/menuicon/Journalicon.svg";
-import Employee from "../../../public/assests/menuicon/Employeeicon.svg";
-import Reports from "../../../public/assests/menuicon/Reportsicon.svg";
-import Settings from "../../../public/assests/menuicon/Settingsicon.svg";
-import LogOut from "../../../public/assests/menuicon/Logoutiutton.svg";
+import Journal from "../../../../public/assests/menuicon/Journalicon.svg";
+import Employee from "../../../../public/assests/menuicon/Employeeicon.svg";
+import Reports from "../../../../public/assests/menuicon/Reportsicon.svg";
+import Settings from "../../../../public/assests/menuicon/Settingsicon.svg";
+import LogOut from "../../../../public/assests/menuicon/Logoutiutton.svg";
 import { Box, Container } from "@mui/material";
 
 const Sidebar = () => {
@@ -107,7 +107,7 @@ const Sidebar = () => {
             padding: "5px",
           }}
         >
-          <Image
+          {/* <Image
             onClick={toggle}
             src={Logo}
             alt="Logo"
@@ -116,7 +116,7 @@ const Sidebar = () => {
               height: "auto",
               cursor: "pointer",
             }}
-          />
+          /> */}
         </Box>
 
         {/* Menu Items */}
