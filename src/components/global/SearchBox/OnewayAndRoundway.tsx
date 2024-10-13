@@ -13,6 +13,7 @@ import Radio from "@mui/material/Radio";
 import Image from "next/image";
 import AirportListsCard from "../AirportListsCard/AirportListsCard";
 import SamePlaceError from "../SamePlaceError/SamePlaceError";
+import Link from "next/link";
 const OnewayAndRoundway = ({
   openFrom,
   openTo,
@@ -794,16 +795,23 @@ const OnewayAndRoundway = ({
             }}
           >
             <Box>
-              <button
-                style={{
-                  border: "none",
-                  background: "none",
-                  color: "#fff",
-                  cursor: "pointer",
-                }}
-              >
-                Search
-              </button>
+<Link href={currentMenu==='Round Trip'?'/dashboard/RoundwaySearchResults':'/dashboard/OnewaySearchResults'}>
+
+<button
+              
+              style={{
+                border: "none",
+                background: "none",
+                color: "#fff",
+                cursor: "pointer",
+              }}
+            >
+              Search
+            </button>
+
+
+
+</Link>
             </Box>
           </Box>
         </Grid>
