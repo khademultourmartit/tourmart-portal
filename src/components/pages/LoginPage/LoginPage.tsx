@@ -11,7 +11,7 @@ const LoginPage = () => {
         <input type='text'/>
         <label>password</label>
         <input type='password'/>
-     <Link href='/'>
+     <Link href='/dashboard'>
      
      
      <Button>
