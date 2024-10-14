@@ -72,3 +72,32 @@ a {
 .rdrMonthAndYearPickers select {
   color: #a56eb4 !important;
 }
+
+.slick-slide-padding {
+  padding-right: 15px;
+}
+
+.slick-slide-padding:last-child {
+  padding-right: 0;
+}
+
+/*  slick slider style */
+
+.slick-prev:before {
+  content: "←";
+  color: #a56eb4 !important;
+  opacity: 0.5 !important;
+  font-size: 20px !important;
+  z-index: 999 !important;
+  position: absolute;
+  left: 10px;
+}
+
+.slick-next:before {
+  content: "→";
+  color: #a56eb4 !important;
+  opacity: 0.5 !important;
+  font-size: 20px !important;
+  position: absolute;
+  left: -3px;
+}

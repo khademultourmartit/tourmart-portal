@@ -27,6 +27,7 @@ import FlightSearchBar from "@/components/global/FlightSearchBar/FlightSearchBar
 import CardWrapper from "@/components/global/CardWrapper/CardWrapper";
 
 import OnewayAndRoundway from "./OnewayAndRoundway";
+import HomeSlider from "../HomeSlider/HomeSlider";
 type MenuItem = {
   name: string;
   icon: string;
@@ -365,7 +366,6 @@ const SearchBox = () => {
               setOpenReturnDate,
             }}
           />
-
           <Box mt={2}>
             <OnewayAndRoundway
               {...{
@@ -418,6 +418,27 @@ const SearchBox = () => {
             />
           </Box>
         </CardWrapper>
+        <Box mt={3}>
+          <Typography
+            style={{
+              backgroundColor: "#B4B4CD",
+              color: "#fff",
+              padding: "5px 10px",
+              display: "flex",
+              fontSize: "12px",
+            }}
+          >
+            <marquee>
+              Notice, news and offers will be scroll here | Notice, news and
+              offers will be scroll here Notice, news and offers will be scroll
+              here | Notice, news and offers will be scroll here
+            </marquee>
+          </Typography>
+        </Box>
+
+        <Box mt={3}>
+          <HomeSlider />
+        </Box>
       </Box>
     </CustomClickAwayListener>
   );
