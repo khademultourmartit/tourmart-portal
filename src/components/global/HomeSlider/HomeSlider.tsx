@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 function HomeSlider() {
   const [slideLoad, setSlideLoad] = useState([1, 2, 3, 4, 5]);
 
-  const slideWidth = 450;
+  const slideWidth = 420;
   const slideGap = 20; // Set your desired gap between slides here
 
   const settings = {
@@ -17,7 +17,7 @@ function HomeSlider() {
     slidesToShow: Math.min(slideLoad.length, 3),
     slidesToScroll: 1,
     initialSlide: 0,
-    arrows: true,
+    arrows: false,
     autoplay: true,
     responsive: [
       {
