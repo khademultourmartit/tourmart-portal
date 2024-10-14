@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-// import Logo from "../../../public/assests/menuicon/Logo.svg";
+import Logo from "../../../../public/assests/menuicon/Logo.svg";
 import Dashboardicon from "../../../../public/assests/menuicon/dashboardicon.svg";
 import Bookings from "../../../../public/assests/menuicon/bookingsIcon.svg";
 import VendorIcon from "../../../../public/assests/menuicon/Vendoricon.svg";

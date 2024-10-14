@@ -481,8 +481,8 @@ const OnewayAndRoundway = ({
             item
             xs={6}
             sm={6}
-            md={7.5}
-            lg={7.5}
+            md={6}
+            lg={6}
             sx={{
               position: "relative",
             }}
@@ -571,27 +571,29 @@ const OnewayAndRoundway = ({
             )}
           </Grid>
 
+          <Box
+            sx={{
+              width: "2px",
+              border: "1px solid #D9D5EC",
+              position: "absolute",
+              height: "60px",
+              left: "168px",
+            }}
+            display={{ xs: "none", sm: "block" }}
+          ></Box>
+
           <Grid
             item
             xs={6}
             sm={6}
-            md={4.5}
-            lg={4.5}
+            md={6}
+            lg={6}
             sx={{
               position: "relative",
               cursor: "pointer",
             }}
+            px={1}
           >
-            <Box
-              sx={{
-                width: "2px",
-                border: "1px solid #D9D5EC",
-                position: "absolute",
-                height: "60px",
-                left: "-25px",
-              }}
-              display={{ xs: "none", sm: "block" }}
-            ></Box>
             <Box
               onClick={() => {
                 if (currentMenu === "Round Trip") {
@@ -765,7 +767,6 @@ const OnewayAndRoundway = ({
               {classBoxOpen && (
                 <FlightClassNamesBox {...{ className, handleClassName }} />
               )}
-              
             </Box>
           </Box>
         </Grid>
@@ -795,23 +796,24 @@ const OnewayAndRoundway = ({
             }}
           >
             <Box>
-<Link href={currentMenu==='Round Trip'?'/dashboard/RoundwaySearchResults':'/dashboard/OnewaySearchResults'}>
-
-<button
-              
-              style={{
-                border: "none",
-                background: "none",
-                color: "#fff",
-                cursor: "pointer",
-              }}
-            >
-              Search
-            </button>
-
-
-
-</Link>
+              <Link
+                href={
+                  currentMenu === "Round Trip"
+                    ? "/dashboard/RoundwaySearchResults"
+                    : "/dashboard/OnewaySearchResults"
+                }
+              >
+                <button
+                  style={{
+                    border: "none",
+                    background: "none",
+                    color: "#fff",
+                    cursor: "pointer",
+                  }}
+                >
+                  Search
+                </button>
+              </Link>
             </Box>
           </Box>
         </Grid>

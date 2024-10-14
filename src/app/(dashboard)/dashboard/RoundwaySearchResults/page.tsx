@@ -1,16 +1,12 @@
-'use client'
-import RoundwaySearchResultsPage from '@/components/pages/RoundwaySearchResultsPage/RoundwaySearchResultsPage'
-
+"use client";
+import RoundwaySearchResultsPage from "@/components/pages/RoundwaySearchResultsPage/RoundwaySearchResultsPage";
 
 const page = () => {
   return (
-  <>
-  <RoundwaySearchResultsPage/>
-  
-  
-  
-  </>
-  )
-}
+    <>
+      <RoundwaySearchResultsPage />
+    </>
+  );
+};
 
-export default page
+export default page;

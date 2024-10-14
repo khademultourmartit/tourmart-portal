@@ -128,7 +128,7 @@ const SearchBox = () => {
   const [openTo, setOpenTo] = useState(false);
   const [classBoxOpen, setClassBoxOpen] = useState(false);
   const [openJourneyDate, setOpenJourneyDate] = useState(false);
-  const [openReturnDate,setOpenReturnDate]=useState(false)
+  const [openReturnDate, setOpenReturnDate] = useState(false);
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(0);
   const [kidCount, setKidCount] = useState(0);
@@ -178,15 +178,15 @@ const SearchBox = () => {
   const handleSelect = (date: any) => {
     setJourneyDate(date);
     setOpenJourneyDate(false);
-if(currentMenu==='Round Trip'){
-    setOpenReturnDate(true)
-}
+    if (currentMenu === "Round Trip") {
+      setOpenReturnDate(true);
+    }
   };
 
-  const handleSelectReturn=(date: any)=>{
-  setReturnDate(date)
-    setOpenReturnDate(false)
-  }
+  const handleSelectReturn = (date: any) => {
+    setReturnDate(date);
+    setOpenReturnDate(false);
+  };
   //  adult Increment
   function adultInclement(e: React.FormEvent) {
     e.preventDefault();
@@ -256,8 +256,6 @@ if(currentMenu==='Round Trip'){
   const toSuggestedText = (data: any) => {
     setToSearchText(data);
   };
-
-
 
   const handleClassName = (event: any) => {
     setClassName(event.target.value);
@@ -355,21 +353,18 @@ if(currentMenu==='Round Trip'){
       });
   };
 
-
-
-
-
-  
   return (
     <CustomClickAwayListener handleClickAway={handleClickAway}>
       <Box>
         <FlightSearchBar />
         <CardWrapper>
-          <FlightMenu {...{
-  setCurrentMenu,
-  currentMenu,
-  setOpenReturnDate
-}} />
+          <FlightMenu
+            {...{
+              setCurrentMenu,
+              currentMenu,
+              setOpenReturnDate,
+            }}
+          />
 
           <Box mt={2}>
             <OnewayAndRoundway
@@ -416,9 +411,9 @@ if(currentMenu==='Round Trip'){
                 toSuggestedText,
                 currentMenu,
                 returnDate,
-                 setReturnDate,
-                 setOpenReturnDate,
-                 setCurrentMenu
+                setReturnDate,
+                setOpenReturnDate,
+                setCurrentMenu,
               }}
             />
           </Box>
