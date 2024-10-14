@@ -12,7 +12,7 @@ import Radio from "@mui/material/Radio";
 import { styled } from "@mui/material/styles";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-
+import Marquee from "react-fast-marquee";
 import { addDays, format } from "date-fns";
 import moment from "moment";
 // import { useRouter } from "next/router";
@@ -516,11 +516,11 @@ const SearchBox = () => {
               fontSize: "12px",
             }}
           >
-            <marquee>
+            <Marquee>
               Notice, news and offers will be scroll here | Notice, news and
               offers will be scroll here Notice, news and offers will be scroll
               here | Notice, news and offers will be scroll here
-            </marquee>
+            </Marquee>
           </Typography>
         </Box>
 
