@@ -228,27 +228,6 @@ const OnewayAndRoundway = ({
                   From
                 </Typography>
               </Box>
-
-              {/* {fromSearchText?.airportCode ===
-            toSearchText?.airportCode && (
-            <Stack
-              style={{
-                position: "absolute",
-                top: "100%",
-                left: "0",
-                width: "100%",
-              }}
-            >
-              <Alert
-                icon={<ErrorOutlineIcon fontSize="inherit" />}
-                severity="error"
-                sx={{ fontSize: "11px" }}
-              >
-                Can't choose same place!
-              </Alert>
-            </Stack>
-          )} */}
-
               {openFrom ? (
                 <Box
                   sx={{
@@ -277,7 +256,9 @@ const OnewayAndRoundway = ({
                   />
                 </Box>
               ) : fromSearchText?.airportCode === toSearchText?.airportCode ? (
-                <SamePlaceError />
+                <Box pt={5.5}>
+                  <SamePlaceError />
+                </Box>
               ) : (
                 <Box sx={{ display: "flex", gap: "10px" }} mt={1}>
                   <Box
@@ -332,10 +313,11 @@ const OnewayAndRoundway = ({
                 onClick={handleReverseDestination}
                 style={{
                   position: "absolute",
-                  right: "10px",
-                  top: "10px",
+                  right: "22px",
+                  top: "15px",
                   cursor: "pointer",
                 }}
+                width={40}
                 src={reverse}
                 alt="reverse icon"
               />
