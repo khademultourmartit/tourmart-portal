@@ -50,6 +50,9 @@ const OnewayAndRoundway = ({
   infantDecrement,
   infantCount,
   infantIncrement,
+  infantWithSeatIncrement,
+  infantWithSeatCount,
+  infantWithSeatDecrement,
   handleClose,
   airportData,
   setAirportData,
@@ -629,11 +632,11 @@ const OnewayAndRoundway = ({
                 </Box>
               ) : (
                 <Box
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpenReturnDate(false);
-                    setCurrentMenu("Round Trip");
-                  }}
+                // onClick={(e) => {
+                //   e.stopPropagation();
+                //   setOpenReturnDate(false);
+                //   setCurrentMenu("Round Trip");
+                // }}
                 >
                   <AddIcon sx={{ fontSize: "40px", color: "#9493BD" }} />
                 </Box>
@@ -673,6 +676,7 @@ const OnewayAndRoundway = ({
                   display: "flex",
                   alignItems: "center",
                   gap: "10px",
+                  cursor: "pointer",
                 }}
                 onClick={() => {
                   setClassBoxOpen((prev: boolean) => !prev);
@@ -741,6 +745,9 @@ const OnewayAndRoundway = ({
                     infantDecrement,
                     infantCount,
                     infantIncrement,
+                    infantWithSeatIncrement,
+                    infantWithSeatCount,
+                    infantWithSeatDecrement,
                     handleClose,
                   }}
                 />
@@ -778,24 +785,16 @@ const OnewayAndRoundway = ({
             }}
           >
             <Box>
-              <Link
-                href={
-                  currentMenu === "Round Trip"
-                    ? "/dashboard/RoundwaySearchResults"
-                    : "/dashboard/OnewaySearchResults"
-                }
+              <button
+                style={{
+                  border: "none",
+                  background: "none",
+                  color: "#fff",
+                  cursor: "pointer",
+                }}
               >
-                <button
-                  style={{
-                    border: "none",
-                    background: "none",
-                    color: "#fff",
-                    cursor: "pointer",
-                  }}
-                >
-                  Search
-                </button>
-              </Link>
+                Search
+              </button>
             </Box>
           </Box>
         </Grid>

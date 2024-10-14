@@ -14,6 +14,9 @@ const TravelerBox = ({
   infantDecrement,
   infantCount,
   infantIncrement,
+  infantWithSeatIncrement,
+  infantWithSeatCount,
+  infantWithSeatDecrement,
   handleClose,
 }: any) => {
   return (
@@ -293,7 +296,7 @@ const TravelerBox = ({
                 color: "#2D233C",
               }}
             >
-              Infant on lap
+              Infant
             </Typography>
             <Typography
               sx={{
@@ -356,6 +359,84 @@ const TravelerBox = ({
             </button>
           </Stack>
         </Stack>
+        <Stack
+          direction="row"
+          spacing={4}
+          justifyContent="space-between"
+          alignItems="center"
+          pb={1}
+        >
+          <Box width="60%">
+            <Typography
+              sx={{
+                fontSize: "14px",
+                color: "#2D233C",
+              }}
+            >
+              Infant With Seat
+            </Typography>
+            <Typography
+              sx={{
+                fontSize: "12px",
+                color: "#B4B4CD",
+              }}
+            >
+              Below 24 m
+            </Typography>
+          </Box>
+          <Stack
+            direction="row"
+            spacing={1}
+            justifyContent="space-between"
+            width="40%"
+          >
+            <button
+              onClick={infantWithSeatDecrement}
+              style={{
+                backgroundColor: "#C3A0CD",
+                color: "#ffffff",
+                border: "none",
+                width: "22px",
+                height: "22px",
+                fontSize: "25px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "50%",
+                cursor: "pointer",
+              }}
+            >
+              -
+            </button>
+            <Typography
+              sx={{
+                fontSize: "16px",
+                color: "#2D233C",
+              }}
+            >
+              {infantWithSeatCount}
+            </Typography>
+            <button
+              onClick={infantWithSeatIncrement}
+              style={{
+                backgroundColor: "#C3A0CD",
+                color: "#ffffff",
+                border: "none",
+                width: "22px",
+                height: "22px",
+                fontSize: "25px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                borderRadius: "50%",
+                cursor: "pointer",
+              }}
+            >
+              +
+            </button>
+          </Stack>
+        </Stack>
+
         <Box mt={2} style={{ textAlign: "right" }}>
           <Button
             size="small"

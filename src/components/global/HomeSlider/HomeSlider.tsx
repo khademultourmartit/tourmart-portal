@@ -6,9 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 
 function HomeSlider() {
   const [slideLoad, setSlideLoad] = useState([1, 2, 3, 4, 5]);
-
   const slideWidth = 420;
-  const slideGap = 20; // Set your desired gap between slides here
+  const slideGap = 20;
 
   const settings = {
     dots: true,
@@ -61,7 +60,7 @@ function HomeSlider() {
                     bgcolor: "var(--white)",
                     borderRadius: "10px",
                     width: `${slideWidth}px`,
-                    margin: `0 ${slideGap / 2}px`, // Apply gap as margin
+                    margin: `0 ${slideGap / 2}px`,
                   }}
                 >
                   <Box>

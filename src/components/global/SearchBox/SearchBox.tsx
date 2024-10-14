@@ -7,9 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-
 import Radio from "@mui/material/Radio";
 import { styled } from "@mui/material/styles";
 import "react-date-range/dist/styles.css";
@@ -134,6 +132,7 @@ const SearchBox = () => {
   const [childCount, setChildCount] = useState(0);
   const [kidCount, setKidCount] = useState(0);
   const [infantCount, setInfantCount] = useState(0);
+  const [infantWithSeatCount, setInfantWithSeatCount] = useState(0);
   const [totalPassenger, setTotalPassenger] = useState(1);
   const [airportData, setAirportData] = useState<AirportPayload[]>([]);
   const [searchKeyword, setSearchKeyword] = useState<string>("bangladesh");
@@ -171,7 +170,9 @@ const SearchBox = () => {
   }, [searchKeyword]);
 
   const handleClose = () => {
-    setTotalPassenger(adultCount + childCount + kidCount + infantCount);
+    setTotalPassenger(
+      adultCount + childCount + kidCount + infantCount + infantWithSeatCount
+    );
     setTravelerBoxOpen(false);
   };
 
@@ -189,20 +190,63 @@ const SearchBox = () => {
     setOpenReturnDate(false);
   };
   //  adult Increment
-  function adultInclement(e: React.FormEvent) {
-    e.preventDefault();
-    if (adultCount < 9 - (childCount + kidCount)) {
-      setAdultCount(adultCount + 1);
+
+  function canIncrementMorethanNine(
+    adultCount: any,
+    childCount: any,
+    kidCount: any,
+    infantWithSeatCount: any
+  ) {
+    const totalCount = adultCount + childCount + kidCount + infantWithSeatCount;
+
+    if (totalCount < 9) {
+      return true;
+    } else {
+      return false;
     }
   }
+
+  function canIncrementInfant(
+    adultCount: any,
+    infantCount: any,
+    infantWithSeatCount: any
+  ) {
+    if (adultCount > infantCount + infantWithSeatCount) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  function adultInclement(e: React.FormEvent) {
+    e.preventDefault();
+
+    if (
+      canIncrementMorethanNine(
+        adultCount,
+        childCount,
+        kidCount,
+        infantWithSeatCount
+      )
+    ) {
+      setAdultCount(adultCount + 1);
+    }
+    // if (adultCount < 9 - (childCount + kidCount + infantWithSeatCount)) {
+    //   setAdultCount(adultCount + 1);
+    // }
+  }
+
   // adult decrement
   function adultDecrement(e: React.FormEvent) {
     e.preventDefault();
     if (adultCount > 1) {
       setAdultCount(adultCount - 1);
-      if (infantCount === adultCount) {
+      if (infantCount + infantWithSeatCount === adultCount) {
         if (infantCount > 1) {
           setInfantCount(infantCount - 1);
+        }
+        if (infantWithSeatCount >= 1) {
+          setInfantWithSeatCount(infantWithSeatCount - 1);
         }
       }
     }
@@ -210,7 +254,14 @@ const SearchBox = () => {
   //  child incerement
   function childIncrement(e: React.FormEvent) {
     e.preventDefault();
-    if (childCount < 9 - (adultCount + kidCount)) {
+    if (
+      canIncrementMorethanNine(
+        adultCount,
+        childCount,
+        kidCount,
+        infantWithSeatCount
+      )
+    ) {
       setChildCount(childCount + 1);
     }
   }
@@ -224,7 +275,14 @@ const SearchBox = () => {
   //  kid increment
   function kidInclement(e: React.FormEvent) {
     e.preventDefault();
-    if (kidCount < 9 - (adultCount + childCount)) {
+    if (
+      canIncrementMorethanNine(
+        adultCount,
+        childCount,
+        kidCount,
+        infantWithSeatCount
+      )
+    ) {
       setKidCount(kidCount + 1);
     }
   }
@@ -236,17 +294,41 @@ const SearchBox = () => {
     }
   }
   // Increment the default value if the value is not a child.
+
   function infantIncrement(e: React.FormEvent) {
     e.preventDefault();
-    if (infantCount < adultCount) {
+    if (canIncrementInfant(adultCount, infantCount, infantWithSeatCount)) {
       setInfantCount(infantCount + 1);
     }
   }
+
   // Decrement the infant by 1.
   function infantDecrement(e: React.FormEvent) {
     e.preventDefault();
     if (infantCount > 0) {
       setInfantCount(infantCount - 1);
+    }
+  }
+
+  function infantWithSeatIncrement(e: React.FormEvent) {
+    e.preventDefault();
+    if (
+      canIncrementInfant(adultCount, infantCount, infantWithSeatCount) &&
+      canIncrementMorethanNine(
+        adultCount,
+        childCount,
+        kidCount,
+        infantWithSeatCount
+      )
+    ) {
+      setInfantWithSeatCount(infantWithSeatCount + 1);
+    }
+  }
+
+  function infantWithSeatDecrement(e: React.FormEvent) {
+    e.preventDefault();
+    if (infantWithSeatCount > 0) {
+      setInfantWithSeatCount(infantWithSeatCount - 1);
     }
   }
 
@@ -304,9 +386,17 @@ const SearchBox = () => {
           passengerType: "CHD",
           passengerID: "CHD" + (i + 1),
         })),
+        ...[...new Array(kidCount)].map((_, i) => ({
+          passengerType: "KID",
+          passengerID: "KID" + (i + 1),
+        })),
         ...[...new Array(infantCount)].map((_, i) => ({
           passengerType: "INF",
           passengerID: "INF" + (i + 1),
+        })),
+        ...[...new Array(infantCount)].map((_, i) => ({
+          passengerType: "INS",
+          passengerID: "INS" + (i + 1),
         })),
       ],
       preferences: {
@@ -335,8 +425,6 @@ const SearchBox = () => {
     };
 
     const bodyString = JSON.stringify(body);
-
-    // Perform POST request
     axios
       .post("http://82.112.238.135:112/api/flight/flight-search", bodyString, {
         headers: {
@@ -344,12 +432,9 @@ const SearchBox = () => {
         },
       })
       .then((response) => {
-        // Handle success - navigate to searchResult page
-        console.log("Search Response:", response.data);
-        // router.push(`/dashboard/searchResult`);
+        router.push(`/dashboard/OnewaySearchResults`);
       })
       .catch((error) => {
-        // Handle error
         console.error("Search Error:", error);
       });
   };
@@ -404,6 +489,9 @@ const SearchBox = () => {
                 infantDecrement,
                 infantCount,
                 infantIncrement,
+                infantWithSeatIncrement,
+                infantWithSeatCount,
+                infantWithSeatDecrement,
                 handleClose,
                 airportData,
                 setAirportData,
