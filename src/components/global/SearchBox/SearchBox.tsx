@@ -12,10 +12,8 @@ import Radio from "@mui/material/Radio";
 import { styled } from "@mui/material/styles";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-
 import { addDays, format } from "date-fns";
 import moment from "moment";
-// import { useRouter } from "next/router";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 
@@ -26,6 +24,7 @@ import CardWrapper from "@/components/global/CardWrapper/CardWrapper";
 import Marquee from "react-fast-marquee";
 import OnewayAndRoundway from "./OnewayAndRoundway";
 import HomeSlider from "../HomeSlider/HomeSlider";
+
 type MenuItem = {
   name: string;
   icon: string;
@@ -100,26 +99,7 @@ const BpCheckedIcon = styled(BpIcon)({
   },
 });
 
-function BpRadio(props: any) {
-  return (
-    <Radio
-      sx={{
-        "&:hover": {
-          bgcolor: "transparent",
-        },
-      }}
-      disableRipple
-      color="default"
-      checkedIcon={<BpCheckedIcon />}
-      icon={<BpIcon />}
-      {...props}
-    />
-  );
-}
-
 const SearchBox = () => {
-  // const router = useRouter();
-
   const [tabs, setTabs] = useState("Flight");
   const [currentMenu, setCurrentMenu] = useState("Oneway");
   const [travelerBoxOpen, setTravelerBoxOpen] = useState(false);
@@ -423,7 +403,6 @@ const SearchBox = () => {
         target: "Test",
       },
     };
-
     const bodyString = JSON.stringify(body);
     axios
       .post("http://82.112.238.135:112/api/flight/flight-search", bodyString, {
