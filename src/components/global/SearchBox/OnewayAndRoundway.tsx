@@ -1,8 +1,8 @@
 import { Box, Grid, Stack, Typography, styled } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import FlightClassNamesBox from "../FlightClassNamesBox/FlightClassNamesBox";
 import TravelerBox from "../TravelerBox/TravelerBox";
-import { Calendar } from "react-date-range";
+import { Calendar, DateRangePicker } from "react-date-range";
 import moment from "moment";
 import Plan from "../../../../public/assests/searchIcon/plan.svg";
 import ToPlane from "../../../../public/assests/searchIcon/ToPlane.svg";
@@ -64,6 +64,21 @@ const OnewayAndRoundway = ({
   setOpenReturnDate,
   setCurrentMenu,
 }: any) => {
+
+ 
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+
+  const handleSelectReturnDate = (ranges: any) => {
+    setDateRange([ranges.selection]); // Updates both start and end date
+    setReturnDate(ranges.selection.endDate); // Update returnDate with the selected end date
+    setOpenReturnDate(false); // Close the picker after selection (optional)
+  };
   type MenuItem = {
     name: string;
     icon: string;
@@ -176,6 +191,7 @@ const OnewayAndRoundway = ({
       </>
     );
   };
+ 
 
   return (
     <>
@@ -541,17 +557,28 @@ const OnewayAndRoundway = ({
             )}
 
             {openReturnDate && (
-              <Box className="DatePicker-style">
-                <Calendar
+              <Box className="DatePicker-style"  >
+                         <DateRangePicker
+            ranges={dateRange}
+            onChange={handleSelectReturnDate}
+            minDate={today} // Disable past dates
+            rangeColors={["#A56EB4"]} // Color for selected date range
+            direction="horizontal" // Horizontal orientation
+            className={"dashboard-calendar"}
+            
+          />
+                {/* <Calendar
                   className={"dashboard-calendar"}
                   color="#A56EB4"
                   date={new Date(returnDate)}
                   direction="horizontal"
                   minDate={today}
+              
                   // maxDate={maxDate}
                   // months={1}
                   onChange={handleSelectReturn}
-                />
+                /> */}
+          
               </Box>
             )}
           </Grid>

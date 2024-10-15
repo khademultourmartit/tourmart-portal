@@ -24,7 +24,8 @@ import CardWrapper from "@/components/global/CardWrapper/CardWrapper";
 import Marquee from "react-fast-marquee";
 import OnewayAndRoundway from "./OnewayAndRoundway";
 import HomeSlider from "../HomeSlider/HomeSlider";
-
+import { storeSearchResults } from "@/redux/slices/onewaySlice";
+import { useDispatch } from "react-redux";
 type MenuItem = {
   name: string;
   icon: string;
@@ -100,6 +101,7 @@ const BpCheckedIcon = styled(BpIcon)({
 });
 
 const SearchBox = () => {
+  const dispatch=useDispatch()
   const [tabs, setTabs] = useState("Flight");
   const [currentMenu, setCurrentMenu] = useState("Oneway");
   const [travelerBoxOpen, setTravelerBoxOpen] = useState(false);
@@ -404,20 +406,24 @@ const SearchBox = () => {
       },
     };
     const bodyString = JSON.stringify(body);
-    axios
-      .post("http://82.112.238.135:112/api/flight/flight-search", bodyString, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => {
-        const data: any = response.data?.payload?.pricedItineraries;
-        localStorage.setItem("flightSearchResults", JSON.stringify(data));
-        router.push(`/dashboard/OnewaySearchResults`);
-      })
-      .catch((error) => {
-        console.error("Search Error:", error);
-      });
+    localStorage.setItem("onewaybody",  JSON.stringify(body));
+    router.push(`/dashboard/OnewaySearchResults`);
+    // axios
+    //   .post("http://82.112.238.135:112/api/flight/flight-search", bodyString, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     const data: any = response.data?.payload?.pricedItineraries;
+    //     localStorage.setItem("flightSearchResults", JSON.stringify(data));
+
+    //     router.push(`/dashboard/OnewaySearchResults`);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Search Error:", error);
+    //   });
+ 
   };
 
   return (

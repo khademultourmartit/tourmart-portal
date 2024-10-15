@@ -1,6 +1,7 @@
-"use client";
+
+import ReduxStoreProvider from "@/components/Providers/ReduxStoreProvider";
 import "./globals.css";
-import MainLayout from "@/components/layout/MainLayout/MainLayout";
+
 
 export default function RootLayout({
   children,
@@ -9,7 +10,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ backgroundColor: "#F2F0F9" }}>{children}</body>
+      <body style={{ backgroundColor: "#F2F0F9" }}>
+        <ReduxStoreProvider>
+
+    
+        {children}
+
+                 
+        </ReduxStoreProvider>
+        </body>
     </html>
   );
 }
