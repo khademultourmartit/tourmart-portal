@@ -12,7 +12,7 @@ import Radio from "@mui/material/Radio";
 import { styled } from "@mui/material/styles";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import Marquee from "react-fast-marquee";
+
 import { addDays, format } from "date-fns";
 import moment from "moment";
 // import { useRouter } from "next/router";
@@ -23,7 +23,7 @@ import CustomClickAwayListener from "@/components/global/CustomClickAwayListener
 import FlightMenu from "@/components/global/FlightMenu/FlightMenu";
 import FlightSearchBar from "@/components/global/FlightSearchBar/FlightSearchBar";
 import CardWrapper from "@/components/global/CardWrapper/CardWrapper";
-
+import Marquee from "react-fast-marquee";
 import OnewayAndRoundway from "./OnewayAndRoundway";
 import HomeSlider from "../HomeSlider/HomeSlider";
 type MenuItem = {

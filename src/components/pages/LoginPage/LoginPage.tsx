@@ -8,7 +8,7 @@ import React from "react";
 
 const LoginPage = () => {
   const router = useRouter();
-  
+
   const initialValues = {
     email: "",
     password: "",
@@ -17,10 +17,11 @@ const LoginPage = () => {
   const formik = useFormik({
     initialValues,
     onSubmit: async (values) => {
-      // You can handle the login logic here
-   
       try {
-        const response = await axios.post('http://82.112.238.135:112/auth/login', values);
+        const response = await axios.post(
+          "http://82.112.238.135:112/auth/login",
+          values
+        );
         router.push("/dashboard");
       } catch (error) {
         console.error("Login failed:", error);
@@ -47,7 +48,7 @@ const LoginPage = () => {
           onBlur={formik.handleBlur}
           value={formik.values.password}
         />
-        
+
         <Button type="submit" variant="contained" color="primary">
           Login
         </Button>
