@@ -22,9 +22,7 @@ const OnewaySearchResultsPage = () => {
   return (
     <Box>
       <Typography>One Way search Result</Typography>
-
       <AirlinesSlider {...{ airlineData }} />
-
       {searchResults && searchResults.length > 0 ? (
         <Box>
           {searchResults?.map((data) => (

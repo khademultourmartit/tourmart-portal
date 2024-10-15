@@ -21,7 +21,7 @@ const AirlinesSlider = ({ airlineData }: any) => {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: Math.min(airlineData.length, 2),
+          slidesToShow: Math.min(airlineData.length, 2),      
           slidesToScroll: 1,
         },
       },
