@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 function HomeSlider() {
+  
   const [slideLoad, setSlideLoad] = useState([1, 2, 3, 4, 5]);
   const slideWidth = 420;
   const slideGap = 20;

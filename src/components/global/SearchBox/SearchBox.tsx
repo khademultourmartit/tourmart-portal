@@ -396,7 +396,7 @@ const SearchBox = () => {
         version: "V4",
         includeUpsells: true,
         requestOptions: "TwoHundred",
-        isDomesticMultiOneWayOffer: true,
+        isMultiOneWayOffer: true,
       },
       additionalInfo: {
         conversationId: "A123456",
@@ -411,6 +411,8 @@ const SearchBox = () => {
         },
       })
       .then((response) => {
+        const data: any = response.data?.payload?.pricedItineraries;
+        localStorage.setItem("flightSearchResults", JSON.stringify(data));
         router.push(`/dashboard/OnewaySearchResults`);
       })
       .catch((error) => {
