@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import AirlinesSlider from "../AirlinesSlider/AirlinesSlider";
 import axios from "axios";
+import secureLocalStorage from "react-secure-storage";
 
 const OnewaySearchResultsPage = () => {
   const [searchResults, setSearchResults] = useState<any[] | null>(null);
@@ -12,7 +13,7 @@ const OnewaySearchResultsPage = () => {
     axios
       .post(
         "http://82.112.238.135:112/api/flight/flight-search",
-        localStorage.getItem("onewaybody"),
+        secureLocalStorage.getItem("onewaybody"),
         {
           headers: {
             "Content-Type": "application/json",
@@ -20,8 +21,9 @@ const OnewaySearchResultsPage = () => {
         }
       )
       .then((response) => {
+    
         const data: any = response.data?.payload?.pricedItineraries;
-        localStorage.setItem("flightSearchResults", JSON.stringify(data));
+        secureLocalStorage.setItem("flightSearchResults", JSON.stringify(data));
         const parsedResults = data;
         const airLinesData = parsedResults.map((data: any) => ({
           validatingCarrier: data?.flightOffer?.validatingCarrier,
@@ -34,7 +36,7 @@ const OnewaySearchResultsPage = () => {
       .catch((error) => {
         console.error("Search Error:", error);
       });
-  }, [localStorage.getItem("onewaybody")]);
+  }, [secureLocalStorage.getItem("onewaybody")]);
 
   return (
     <Box>

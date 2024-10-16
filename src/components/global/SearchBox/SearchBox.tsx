@@ -26,6 +26,7 @@ import OnewayAndRoundway from "./OnewayAndRoundway";
 import HomeSlider from "../HomeSlider/HomeSlider";
 import { storeSearchResults } from "@/redux/slices/onewaySlice";
 import { useDispatch } from "react-redux";
+import secureLocalStorage from "react-secure-storage";
 type MenuItem = {
   name: string;
   icon: string;
@@ -406,7 +407,7 @@ const SearchBox = () => {
       },
     };
     const bodyString = JSON.stringify(body);
-    localStorage.setItem("onewaybody", JSON.stringify(body));
+    secureLocalStorage.setItem("onewaybody", JSON.stringify(body));
     router.push(`/dashboard/OnewaySearchResults`);
     // axios
     //   .post("http://82.112.238.135:112/api/flight/flight-search", bodyString, {
