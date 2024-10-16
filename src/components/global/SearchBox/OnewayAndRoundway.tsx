@@ -734,7 +734,7 @@ const OnewayAndRoundway = ({
                     direction="horizontal"
                     className={"return-calendar "}
                   />
-                  <Box className={"return-date-count"}>
+                  {/* <Box className={"return-date-count"}>
                     <Typography
                       sx={{
                         padding: "5px 0px",
@@ -745,7 +745,7 @@ const OnewayAndRoundway = ({
                     >
                       {differenceInDays + 1} Days
                     </Typography>
-                  </Box>
+                  </Box> */}
                 </Box>
               )}
             </Grid>
