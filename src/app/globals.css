@@ -16,7 +16,7 @@ body {
   overflow-x: hidden;
 }
 .rdrDefinedRangesWrapper {
-  display: none
+  display: none;
 }
 body {
   color: var(--foreground);
@@ -49,8 +49,27 @@ a {
   left: 0px;
   border-radius: 5px;
   z-index: 9999;
-  width: 170%;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: 90%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
+}
+
+.return-calendar {
+  position: absolute;
+  top: 125%;
+  left: -10px;
+  border-radius: 5px;
+  z-index: 9999;
+  width: 90%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
+}
+
+.return-date-count {
+  position: absolute;
+  bottom: -650%;
+  left: -10px;
+  z-index: 9999;
+  width: 193%;
+  background-color: #9493bd;
 }
 
 .rdrNextPrevButton {

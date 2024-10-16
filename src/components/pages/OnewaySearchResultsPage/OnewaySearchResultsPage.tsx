@@ -47,6 +47,7 @@ const [isLoading,setIsLoading]=useState(true)
 
   return (
     <Box>
+
       <Typography>One Way search Result</Typography>
       <AirlinesSlider {...{ airlineData }} />
 
@@ -64,6 +65,7 @@ const [isLoading,setIsLoading]=useState(true)
       ) : (
         <Typography>No search results available.</Typography>
       )}
+      
     </Box>
   );
 };

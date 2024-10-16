@@ -2,7 +2,7 @@ import { Box, Grid, Stack, Typography, styled } from "@mui/material";
 import React, { useState } from "react";
 import FlightClassNamesBox from "../FlightClassNamesBox/FlightClassNamesBox";
 import TravelerBox from "../TravelerBox/TravelerBox";
-import { Calendar, DateRangePicker } from "react-date-range";
+import { Calendar, DateRange, DateRangePicker } from "react-date-range";
 import moment from "moment";
 import Plan from "../../../../public/assests/searchIcon/plan.svg";
 import ToPlane from "../../../../public/assests/searchIcon/ToPlane.svg";
@@ -14,6 +14,7 @@ import Image from "next/image";
 import AirportListsCard from "../AirportListsCard/AirportListsCard";
 import SamePlaceError from "../SamePlaceError/SamePlaceError";
 import Link from "next/link";
+import zIndex from "@mui/material/styles/zIndex";
 const OnewayAndRoundway = ({
   openFrom,
   openTo,
@@ -28,6 +29,7 @@ const OnewayAndRoundway = ({
   toSearchText,
   handleReverseDestination,
   journeyDate,
+  setJourneyDate,
   openJourneyDate,
   today,
   handleSelect,
@@ -64,8 +66,6 @@ const OnewayAndRoundway = ({
   setOpenReturnDate,
   setCurrentMenu,
 }: any) => {
-
- 
   const [dateRange, setDateRange] = useState([
     {
       startDate: new Date(),
@@ -75,10 +75,17 @@ const OnewayAndRoundway = ({
   ]);
 
   const handleSelectReturnDate = (ranges: any) => {
-    setDateRange([ranges.selection]); // Updates both start and end date
-    setReturnDate(ranges.selection.endDate); // Update returnDate with the selected end date
-    setOpenReturnDate(false); // Close the picker after selection (optional)
+    setDateRange([ranges.selection]);
+    setJourneyDate(ranges.selection.startDate);
+    setReturnDate(ranges.selection.endDate);
+    // setOpenReturnDate(false);
   };
+
+  const startDate = new Date(journeyDate);
+  const endDate = new Date(returnDate);
+  const differenceInTime = endDate.getTime() - startDate.getTime();
+  const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
   type MenuItem = {
     name: string;
     icon: string;
@@ -191,7 +198,6 @@ const OnewayAndRoundway = ({
       </>
     );
   };
- 
 
   return (
     <>
@@ -457,6 +463,7 @@ const OnewayAndRoundway = ({
         </Grid>
 
         {/*  date */}
+
         <Grid
           item
           container
@@ -478,198 +485,271 @@ const OnewayAndRoundway = ({
             sm: 0,
           }}
         >
-          <Grid
-            item
-            xs={6}
-            sm={6}
-            md={6}
-            lg={6}
-            sx={{
-              position: "relative",
-            }}
-          >
-            <Box
+          {currentMenu === "Oneway" && (
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
               sx={{
-                cursor: "pointer",
+                position: "relative",
               }}
-              onClick={() => {
-                setOpenJourneyDate((prev: boolean) => !prev);
-                setOpenReturnDate(false);
-                setOpenFrom(false);
-                setOpenTo(false);
-                setTravelerBoxOpen(false);
-                setClassBoxOpen(false);
+            >
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Box
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    setOpenJourneyDate((prev: boolean) => !prev);
+                    setOpenReturnDate(false);
+                    setOpenFrom(false);
+                    setOpenTo(false);
+                    setTravelerBoxOpen(false);
+                    setClassBoxOpen(false);
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <Image src={calender} alt="plan Icon" />
+                    <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
+                      Departure
+                    </Typography>
+                  </Box>
+
+                  <Box mt={1} sx={{ display: "flex", gap: "10px" }}>
+                    <Box
+                      sx={{
+                        height: "36px",
+                        bgcolor: "#F2F0F9",
+                        width: "55px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography sx={{ color: "#6E0A82", fontWeight: "500" }}>
+                        {moment(journeyDate).format("DD")}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
+                        {moment(journeyDate).format("MMMM")}
+                      </Typography>
+                      <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
+                        {moment(journeyDate).format("dddd")},{" "}
+                        {moment(journeyDate).format("YYYY")}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    width: "1px",
+                    border: "1px solid #D9D5EC",
+                  }}
+                ></Box>
+                <Box
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setCurrentMenu("Round Trip");
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <Image src={calender} alt="plan Icon" />
+                    <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
+                      Add Return
+                    </Typography>
+                  </Box>
+
+                  <Box
+                    sx={{
+                      textAlign: "center",
+                    }}
+                  >
+                    <AddIcon
+                      sx={{
+                        fontSize: "40px",
+                        color: "#9493BD",
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </Box>
+
+              {openJourneyDate && (
+                <Box className="DatePicker-style">
+                  <Calendar
+                    className={"dashboard-calendar"}
+                    color="#A56EB4"
+                    date={new Date(journeyDate)}
+                    direction="horizontal"
+                    minDate={today}
+                    onChange={handleSelect}
+                  />
+                </Box>
+              )}
+            </Grid>
+          )}
+
+          {currentMenu === "Round Trip" && (
+            <Grid
+              item
+              xs={12}
+              sm={12}
+              md={12}
+              lg={12}
+              sx={{
+                position: "relative",
               }}
             >
               <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              >
-                <Image src={calender} alt="plan Icon" />
-                <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
-                  Departure
-                </Typography>
-              </Box>
-
-              <Box mt={1} sx={{ display: "flex", gap: "10px" }}>
-                <Box
-                  sx={{
-                    height: "36px",
-                    bgcolor: "#F2F0F9",
-                    width: "55px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Typography sx={{ color: "#6E0A82", fontWeight: "500" }}>
-                    {moment(journeyDate).format("DD")}
-                  </Typography>
-                </Box>
-                <Box>
-                  <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
-                    {moment(journeyDate).format("MMMM")}
-                  </Typography>
-                  <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
-                    {moment(journeyDate).format("dddd")},{" "}
-                    {moment(journeyDate).format("YYYY")}
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-
-            {openJourneyDate && (
-              <Box className="DatePicker-style">
-                <Calendar
-                  className={"dashboard-calendar"}
-                  color="#A56EB4"
-                  date={new Date(journeyDate)}
-                  direction="horizontal"
-                  minDate={today}
-                  // maxDate={maxDate}
-                  // months={1}
-                  onChange={handleSelect}
-                />
-              </Box>
-            )}
-
-            {openReturnDate && (
-              <Box className="DatePicker-style"  >
-                         <DateRangePicker
-            ranges={dateRange}
-            onChange={handleSelectReturnDate}
-            minDate={today} // Disable past dates
-            rangeColors={["#A56EB4"]} // Color for selected date range
-            direction="horizontal" // Horizontal orientation
-            className={"dashboard-calendar"}
-            
-          />
-                {/* <Calendar
-                  className={"dashboard-calendar"}
-                  color="#A56EB4"
-                  date={new Date(returnDate)}
-                  direction="horizontal"
-                  minDate={today}
-              
-                  // maxDate={maxDate}
-                  // months={1}
-                  onChange={handleSelectReturn}
-                /> */}
-          
-              </Box>
-            )}
-          </Grid>
-
-          <Box
-            sx={{
-              width: "2px",
-              border: "1px solid #D9D5EC",
-              position: "absolute",
-              height: "60px",
-              left: "168px",
-            }}
-            display={{ xs: "none", sm: "block" }}
-          ></Box>
-
-          <Grid
-            item
-            xs={6}
-            sm={6}
-            md={6}
-            lg={6}
-            sx={{
-              position: "relative",
-              cursor: "pointer",
-            }}
-            px={1}
-          >
-            <Box
-              onClick={() => {
-                if (currentMenu === "Round Trip") {
+                sx={{ display: "flex", justifyContent: "space-between" }}
+                onClick={() => {
                   setOpenReturnDate((prev: boolean) => !prev);
                   setOpenJourneyDate(false);
                   setOpenFrom(false);
                   setOpenTo(false);
                   setTravelerBoxOpen(false);
                   setClassBoxOpen(false);
-                }
-              }}
-              sx={{ position: "relative" }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
                 }}
               >
-                <Image src={calender} alt="plan Icon" />
-                <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
-                  Add Return
-                </Typography>
-              </Box>
-              {currentMenu === "Round Trip" ? (
-                <Box mt={1} sx={{ display: "flex", gap: "10px" }}>
+                <Box
+                  sx={{
+                    cursor: "pointer",
+                  }}
+                >
                   <Box
                     sx={{
-                      height: "36px",
-                      bgcolor: "#F2F0F9",
-                      width: "55px",
                       display: "flex",
                       alignItems: "center",
-                      justifyContent: "center",
+                      gap: "10px",
                     }}
                   >
-                    <Typography sx={{ color: "#6E0A82", fontWeight: "500" }}>
-                      {moment(returnDate).format("DD")}
+                    <Image src={calender} alt="plan Icon" />
+                    <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
+                      Departure
                     </Typography>
                   </Box>
-                  <Box>
-                    <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
-                      {moment(returnDate).format("MMMM")}
-                    </Typography>
-                    <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
-                      {moment(returnDate).format("dddd")},{" "}
-                      {moment(returnDate).format("YYYY")}
-                    </Typography>
+
+                  <Box mt={1} sx={{ display: "flex", gap: "10px" }}>
+                    <Box
+                      sx={{
+                        height: "36px",
+                        bgcolor: "#F2F0F9",
+                        width: "55px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography sx={{ color: "#6E0A82", fontWeight: "500" }}>
+                        {moment(journeyDate).format("DD")}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
+                        {moment(journeyDate).format("MMMM")}
+                      </Typography>
+                      <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
+                        {moment(journeyDate).format("dddd")},{" "}
+                        {moment(journeyDate).format("YYYY")}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
-              ) : (
                 <Box
-                // onClick={(e) => {
-                //   e.stopPropagation();
-                //   setOpenReturnDate(false);
-                //   setCurrentMenu("Round Trip");
-                // }}
+                  sx={{
+                    width: "1px",
+                    border: "1px solid #D9D5EC",
+                  }}
+                ></Box>
+                <Box
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setCurrentMenu("Round Trip");
+                  }}
                 >
-                  <AddIcon sx={{ fontSize: "40px", color: "#9493BD" }} />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <Image src={calender} alt="plan Icon" />
+                    <Typography sx={{ fontSize: "12px", color: "#9493BD" }}>
+                      Add Return
+                    </Typography>
+                  </Box>
+
+                  <Box mt={1} sx={{ display: "flex", gap: "10px" }}>
+                    <Box
+                      sx={{
+                        height: "36px",
+                        bgcolor: "#F2F0F9",
+                        width: "55px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography sx={{ color: "#6E0A82", fontWeight: "500" }}>
+                        {moment(returnDate).format("DD")}
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <Typography sx={{ color: "#2D233C", fontSize: "14px" }}>
+                        {moment(returnDate).format("MMMM")}
+                      </Typography>
+                      <Typography sx={{ color: "#6E6996", fontSize: "11px" }}>
+                        {moment(returnDate).format("dddd")},{" "}
+                        {moment(returnDate).format("YYYY")}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+
+              {openReturnDate && (
+                <Box>
+                  <DateRangePicker
+                    ranges={dateRange}
+                    onChange={handleSelectReturnDate}
+                    minDate={today}
+                    months={2}
+                    rangeColors={["#A56EB4"]}
+                    direction="horizontal"
+                    className={"return-calendar "}
+                  />
+                  <Box className={"return-date-count"}>
+                    <Typography
+                      sx={{
+                        padding: "5px 0px",
+                        textAlign: "center",
+                        color: "#ffffff",
+                        fontSize: "14px",
+                      }}
+                    >
+                      {differenceInDays + 1} Days
+                    </Typography>
+                  </Box>
                 </Box>
               )}
-            </Box>
-          </Grid>
+            </Grid>
+          )}
         </Grid>
 
         {/*  //todo: Passenger info */}

@@ -101,7 +101,7 @@ const BpCheckedIcon = styled(BpIcon)({
 });
 
 const SearchBox = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const [tabs, setTabs] = useState("Flight");
   const [currentMenu, setCurrentMenu] = useState("Oneway");
   const [travelerBoxOpen, setTravelerBoxOpen] = useState(false);
@@ -121,9 +121,9 @@ const SearchBox = () => {
   const [className, setClassName] = useState("Economy");
   const now = useRef(new Date());
   const router = useRouter();
-
   const [journeyDate, setJourneyDate] = useState(addDays(now.current, 0));
   const [returnDate, setReturnDate] = useState(addDays(now.current, 0));
+
   const [open, setOpen] = useState(false);
   const today = new Date();
   const maxDate = new Date();
@@ -406,7 +406,7 @@ const SearchBox = () => {
       },
     };
     const bodyString = JSON.stringify(body);
-    localStorage.setItem("onewaybody",  JSON.stringify(body));
+    localStorage.setItem("onewaybody", JSON.stringify(body));
     router.push(`/dashboard/OnewaySearchResults`);
     // axios
     //   .post("http://82.112.238.135:112/api/flight/flight-search", bodyString, {
@@ -423,7 +423,6 @@ const SearchBox = () => {
     //   .catch((error) => {
     //     console.error("Search Error:", error);
     //   });
- 
   };
 
   return (
@@ -453,6 +452,7 @@ const SearchBox = () => {
                 toSearchText,
                 handleReverseDestination,
                 journeyDate,
+                setJourneyDate,
                 openJourneyDate,
                 openReturnDate,
                 today,
@@ -511,9 +511,9 @@ const SearchBox = () => {
           </Typography>
         </Box>
 
-        <Box mt={3}>
+        {/* <Box mt={3}>
           <HomeSlider />
-        </Box>
+        </Box> */}
       </Box>
     </CustomClickAwayListener>
   );
