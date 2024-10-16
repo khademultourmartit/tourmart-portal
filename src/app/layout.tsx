@@ -1,7 +1,5 @@
-
 import ReduxStoreProvider from "@/components/Providers/ReduxStoreProvider";
 import "./globals.css";
-
 
 export default function RootLayout({
   children,
@@ -11,14 +9,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body style={{ backgroundColor: "#F2F0F9" }}>
-        <ReduxStoreProvider>
-
-    
-        {children}
-
-                 
-        </ReduxStoreProvider>
-        </body>
+        <ReduxStoreProvider>{children}</ReduxStoreProvider>
+      </body>
     </html>
   );
 }
